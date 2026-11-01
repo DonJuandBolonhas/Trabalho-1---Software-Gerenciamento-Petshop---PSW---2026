@@ -45,21 +45,21 @@ li {
 
 <!-- Formatação dos links --->
 a:link {
-    color: #FF0000;
-    text-decoration: none;
+    color: #ffffff;
+    text-decoration: underline;
 }
 
 a:visited {
-    color: #00FF00;
+    color: #9900ff;
     text-decoration: none;
 }
 
 a:hover {
-    color: #FF00FF;
+    color: #ffffff;
     text-decoration: underline;
 }
 
 a:active {
-    color: #0000FF;
+    color: #920ee4;
     text-decoration: underline;
 }

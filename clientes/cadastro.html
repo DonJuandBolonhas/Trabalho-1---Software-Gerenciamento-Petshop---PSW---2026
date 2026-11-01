@@ -109,12 +109,20 @@
         <ul>
             <li><a href="#secao1">Consultar anotações</a></li>
         </ul>
+
         <form id="form-cliente">
     <fieldset>
         <legend>Cadastro Cliente:</legend>
         
         <label for="nome">Nome:</label><br>
         <input type="text" id="nome" name="nome" required><br>
+
+        <form action="acao.php" method="POST" style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
+            <fieldset>
+                <legend>Preencha os dados do Cliente:</legend>
+                <label for="nome"> Nome:</label><br>
+                <input type="text" id="nome" name="nome"> <br>
+
 
         <label for="cpf">CPF:</label><br>
         <input type="text" id="cpf" name="cpf" required><br>
@@ -153,6 +161,7 @@
             <option value="Presidente Castelo Branco">
         </datalist><br>
 
+
         <input type="checkbox" id="epropaganda" name="propaganda" value="epropaganda">
         <label for="epropaganda">Permitido enviar propaganda por e-mail</label><br>
         <input type="checkbox" id="wpropaganda" name="propaganda" value="wpropaganda">
@@ -161,12 +170,29 @@
         <label for="quantidade">Quantidade de pets (0-100):</label><br>
         <input type="number" id="quantidade" name="quantidade" min="0" max="100"><br>
 
+                <label for="logradouro" id="secao1">Logradouro:</label><br>
+                <input type="text" id="logradouro" name="logradouro"><br>
+                <input type="checkbox" id="epropaganda" name="propaganda" value="epropaganda">
+                <label for="epropaganda">Permitido enviar propaganda por e-mail</label> <br>
+                <input type="checkbox" id="wpropaganda" name="propaganda" value="wpropaganda">
+                <label for="wpropaganda">Permitido enviar propaganda por whatsapp</label><br>
+
+                <label for="quantidade">Quantidade de pets(entre 0-100):</label><br>
+                <input type="number" id="quantidade" name="quantidade" min="0" max="100"><br>
+
+
         <label for="message" id="secao1">Anotações:</label><br>
         <textarea name="message" id="message" rows="5" cols="50"></textarea><br><br>
+
 
         <button type="submit" class="btn btn-primary">Salvar Cliente</button>
     </fieldset>
 </form>
+
+                <br><input type="submit" value="Salvar">
+            </fieldset>
+        </form>
+
     </main>
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-1">Suporte: <a href="mailto:ra@uem.br" class="text-light font-weight-bold">ra@uem.br</a></p>

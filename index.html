@@ -29,9 +29,9 @@
     <h1>Cadastro Cliente</h1>
     <p>cadastro do cliente será feito aqui</p><br>
     <pre>         ;)         </pre>
-    <form>
+    <form action="acao.php" method="POST">
         <fieldset>
-            <legend>Cadastro Cliente</legend>
+            <legend>Cadastro Cliente:</legend>
             Nome:<br>
             <input type="text" name="nome"> <br>
             Sobrenome:<br>
@@ -39,24 +39,33 @@
             CPF:<br>
             <input type="text" name="cpf"><br>
             Data de Nascimento:<br>
-            <input type="text" name="datanascimento"><br>
+            <input type="date" name="data"><br>
             <input type="radio" name="sex" value="masculino" checked>
             Masculino <br>
             <input type="radio" name="sex" value="feminino">
             Feminino<br>
             <input type="radio" name="sex" value="outro">
             Outro<br>
+            <input list="cidades">
+            <datalist id="cidades">
+                <option value="Maringá">
+                <option value="Sarandi">
+                <option value="Mandaguaçu">
+                <option value="Mandaguari">
+                <option value="Presidente Castelo Branco">
+            </datalist>
             <input type="checkbox" name="propaganda" value="epropaganda">
             Permitido enviar propaganda por e-mail <br>
             <input type="checkbox" name="propaganda" value="wpropaganda">
-            Permitido enviar propaganda por whatsapp
-
-
+            Permitido enviar propaganda por whatsapp <br>
+            <textarea name="message" rows="10" cols="30"></textarea>
+            Quantidade de pets(entre 1 e 10):
+            <input type="number" name="quantidade" min="1" max="10" step=“2”>
             <br><input type="submit" value="Enviar">
         </fieldset>
 
         <fieldset>
-            <legend>Cadastro Funcionário</legend>
+            <legend>Cadastro Funcionário:</legend>
             Nome:<br>
             <input type="text" name="nome"> <br>
             Sobrenome:<br>

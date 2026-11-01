@@ -1,5 +1,6 @@
 /* Configuração para manter o footer sempre no final da página */
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -37,6 +38,7 @@ li {
 }
 
 <!-- Formatação dos links --->
+
 a:link {
     color: #ffffff;
     text-decoration: underline;

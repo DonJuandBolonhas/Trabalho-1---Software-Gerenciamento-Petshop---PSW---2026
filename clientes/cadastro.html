@@ -109,9 +109,9 @@
         <ul>
             <li><a href="#secao1">Consultar anotações</a></li>
         </ul>
-        <form action="acao.php" method="POST">
+        <form action="acao.php" method="POST" style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
             <fieldset>
-                <legend>Cadastro Cliente:</legend>
+                <legend>Preencha os dados do Cliente:</legend>
                 <label for="nome"> Nome:</label><br>
                 <input type="text" id="nome" name="nome"> <br>
 
@@ -157,12 +157,12 @@
                 <label for="wpropaganda">Permitido enviar propaganda por whatsapp</label><br>
 
                 <label for="quantidade">Quantidade de pets(entre 0-100):</label><br>
-                <input type="number" id="quantidade" name="quantidade" min="0" max="100" step="2"><br>
+                <input type="number" id="quantidade" name="quantidade" min="0" max="100"><br>
 
                 <label for="message"  id="secao1">Anotações:</label><br>
                 <textarea name="message" id="message" rows="10" cols="50"></textarea><br>
 
-                <br><input type="submit" value="Enviar">
+                <br><input type="submit" value="Salvar">
             </fieldset>
         </form>
     </main>

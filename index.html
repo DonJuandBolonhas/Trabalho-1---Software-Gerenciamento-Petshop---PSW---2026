@@ -26,139 +26,107 @@
 <body>
     <header>
         <h1>Meu Petshop</h1>
-        <ul>
-            <li><a href="#secao1">Consulte o contato</a></li>
-            <li><a href="contato.html">Contato</a></li>
-            <li> <a href="sobre.html"> Sobre</a></li>
-        </ul>
+
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <!-- Brand -->
-            <a class="navbar-brand" href="#">Logo</a>
+            <a class="navbar-brand" href="index.html"><img src="imagens/favicon.ico" alt="Logo" width="30"
+                    height="30"></a>
 
             <!-- Links -->
             <ul class="navbar-nav w-100">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 1</a>
+                    <a class="nav-link" href="index.html">Início</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Link 2</a>
+                    <a class="nav-link" href="sobre.html">Sobre</a>
                 </li>
 
                 <!-- Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Dropdown link
+                        Cadastrar Clientes
                     </a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Link 1</a>
-                        <a class="dropdown-item" href="#">Link 2</a>
-                        <a class="dropdown-item" href="#">Link 3</a>
+                        <a class="dropdown-item" href="clientes/alteracao.html">Alteração</a>
+                        <a class="dropdown-item" href="clientes/cadastro.html">Cadastro</a>
+                        <a class="dropdown-item" href="clientes/consulta.html">Consulta</a>
+                        <a class="dropdown-item" href="clientes/remocao.html">Remoção</a>
+
                     </div>
                 </li>
-                    <li class="nav-item ml-auto">
-                        <form class="form-inline" action="/action_page.php">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                            <button class="btn btn-success" type="submit">Search</button>
-                        </form>
-                    </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Cadastrar Atendimentos
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="atendimentos/alteracao.html">Alteração</a>
+                        <a class="dropdown-item" href="atendimentos/cadastro.html">Cadastro</a>
+                        <a class="dropdown-item" href="atendimentos/consulta.html">Consulta</a>
+                        <a class="dropdown-item" href="atendimentos/remocao.html">Remoção</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Cadastrar Animais
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="animais/alteracao.html">Alteração</a>
+                        <a class="dropdown-item" href="animais/cadastro.html">Cadastro</a>
+                        <a class="dropdown-item" href="animais/consulta.html">Consulta</a>
+                        <a class="dropdown-item" href="animais/remocao.html">Remoção</a>
+
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+                        Cadastrar Funcionários
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="funcionarios/alteracao.html">Alteração</a>
+                        <a class="dropdown-item" href="funcionarios/cadastro.html">Cadastro</a>
+                        <a class="dropdown-item" href="funcionarios/consulta.html">Consulta</a>
+                        <a class="dropdown-item" href="funcionarios/remocao.html">Remoção</a>
+
+                    </div>
+                </li>
+
+
+
+                <li class="nav-item ml-auto">
+                    <form class="form-inline" action="/action_page.php">
+                        <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                        <button class="btn btn-success" type="submit">Search</button>
+                    </form>
+                </li>
             </ul>
         </nav>
     </header>
-    
-    <h1 id="titulo">Bem-vindo ao Meu Petshop</h1>
-    <h1 class="cabecalho">Cadastro Cliente</h1>
-    <p>cadastro do cliente será feito aqui</p><br>
-    <form action="acao.php" method="POST">
-        <fieldset>
-            <legend>Cadastro Cliente:</legend>
-            <label for="nome"> Nome:</label><br>
-            <input type="text" id="nome" name="nome"> <br>
+    <main>
+        <h1 id="titulo">Bem-vindo ao Meu Petshop</h1>
 
-            <label for="sobrenome">Sobrenome:</label><br>
-            <input type="text" id="sobrenome" name="sobrenome"><br>
+        <div class="container">
 
-            <label for="cpf">CPF:</label><br>
-            <input type="text" id="cpf" name="cpf"><br>
-
-            <label for="data"> Data de Nascimento:</label><br>
-            <input type="date" id="data" name="data"><br>
-
-            <input type="radio" id="masculino" name="sex" value="masculino" checked>
-            <label for="masculino"> Masculino </label><br>
-
-            <input type="radio" id="feminino" name="sex" value="feminino">
-            <label for="feminino"> Feminino</label><br>
-
-            <input type="radio" id="outro" name="sex" value="outro">
-            <label for="outro">Outro</label><br>
-
-            <label for="cidades">Cidade:</label><br>
-            <input list="cidades" id="cidades">
-
-            <datalist id="cidades">
-                <option value="Maringá">
-                <option value="Sarandi">
-                <option value="Mandaguaçu">
-                <option value="Mandaguari">
-                <option value="Presidente Castelo Branco">
-            </datalist><br>
-
-            <input type="checkbox" id="epropaganda" name="propaganda" value="epropaganda">
-            <label for="epropaganda">Permitido enviar propaganda por e-mail</label> <br>
-            <input type="checkbox" id="wpropaganda" name="propaganda" value="wpropaganda">
-            <label for="wpropaganda">Permitido enviar propaganda por whatsapp</label><br>
-
-            <label for="message">Anotações:</label><br>
-            <textarea name="message" id="message" rows="10" cols="30"></textarea><br>
-            <label for="quantidade">Quantidade de pets(entre 1 e 10):</label><br>
-            <input type="number" id="quantidade" name="quantidade" min="1" max="10" step=“2”>
-            <br><input type="submit" value="Enviar">
-        </fieldset>
-
-        <fieldset>
-            <legend>Cadastro Funcionário:</legend>
-            <label for="nome">Nome:</label><br>
-            <input type="text" id="nome" name="nome"> <br>
-
-            <label for="sobrenome">Sobrenome:</label><br>
-            <input type="text" id="sobrenome" name="sobrenome"><br>
-
-            <label for="cpf">CPF:</label><br>
-            <input type="text" id="cpf" name="cpf"><br>
-
-            <input type="radio" id="masculino" name="sex" value="masculino" checked>
-            <label for="masculino">Masculino</label><br>
-
-            <input type="radio" id="feminino" name="sex" value="feminino">
-            <label for="feminino">Feminino</label><br>
-
-            <input type="radio" id="outro" name="sex" value="outro">
-            <label for="outro">Outro</label><br>
-
-
-            <select name="cargo">
-                <option value="operacional" selected>Operacional</option>
-                <option value="tatico">Tático</option>
-                <option value="estrategico">Estratégico</option>
-            </select>
-            <br><input type="submit" value="Enviar">
-        </fieldset>
-    </form>
-    <div class="container">
-
-        <div class="row">
-            <div class="col-sm-4 ">
-                <p>Pablo</p>
+            <div class="row">
+                <div class="col-sm-4 ">
+                    <p>Pablo</p>
+                </div>
+                <div class="col-sm-8">
+                    <p>Denilson</p>
+                </div>
             </div>
-            <div class="col-sm-8">
-                <p>Denilson</p>
-            </div>
+
         </div>
-    </div>
+        <h3>contato</h3>
+        <p>Contato via e-mail-> <a href="mailto:ra@uem.br">E-mail</a>
+        </p>
+    </main>
     <footer>
-        <h3 id="secao1">contato</h3>
         <p> Meu S/A - CNPJ: 00.000.000/0000-00 <br>
-            ® MeuPetshop - Todos os direitos reservados <br>
+            ® 2026 MeuPetshop - Todos os direitos reservados <br>
 
         <p>
     </footer>

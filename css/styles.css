@@ -1,0 +1,65 @@
+label {
+    cursor: default;
+}
+
+#titulo {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 36px;
+    margin-top: 20px;
+}
+
+header {
+    background-color: rgb(78, 13, 97);
+    color: white;
+    text-align: center;
+    padding: 5px;
+}
+
+header h1 {
+    color: white;
+}
+
+body {
+    background-color: lightblue;
+}
+
+.cabecalho {
+    color: rgb(36, 30, 30);
+    padding: 10px;
+    text-align: center;
+}
+
+footer {
+    background-color: rgb(78, 13, 97);
+    color: white;
+    clear: both;
+    text-align: center;
+    padding: 5px;
+}
+
+li {
+    display: inline;
+    margin-right: 10px;
+}
+
+<!-- Formatação dos links --->
+a:link {
+    color: #FF0000;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #00FF00;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #FF00FF;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #0000FF;
+    text-decoration: underline;
+}

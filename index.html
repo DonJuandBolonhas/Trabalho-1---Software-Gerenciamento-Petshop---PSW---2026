@@ -1,23 +1,102 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta name="keywords" content="pet, petshop, trabalhonota10">
+    <meta name="description"
+        content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS ">
     <meta charset="UTF-8">
+    <meta name="author" content="Denilson P.M., Pablo F.S.L.">
+    <!-- não parece ser útil <meta http-equiv="refresh" content="30"> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="icon" type="image/x-icon" href="imagens/favicon.ico">
     <title>Petshop</title>
+
 </head>
+
 <body>
     <header>
+        <ul>
+            <li><a href="#secao1">Consulte o contato</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li> <a href="sobre.html"> Sobre</a></li>
+        </ul>
     </header>
+    <h1>Cadastro Cliente</h1>
+    <p>cadastro do cliente será feito aqui</p><br>
+    <pre>         ;)         </pre>
+    <form>
+        <fieldset>
+            <legend>Cadastro Cliente</legend>
+            Nome:<br>
+            <input type="text" name="nome"> <br>
+            Sobrenome:<br>
+            <input type="text" name="sobrenome"><br>
+            CPF:<br>
+            <input type="text" name="cpf"><br>
+            Data de Nascimento:<br>
+            <input type="text" name="datanascimento"><br>
+            <input type="radio" name="sex" value="masculino" checked>
+            Masculino <br>
+            <input type="radio" name="sex" value="feminino">
+            Feminino<br>
+            <input type="radio" name="sex" value="outro">
+            Outro<br>
+            <input type="checkbox" name="propaganda" value="epropaganda">
+            Permitido enviar propaganda por e-mail <br>
+            <input type="checkbox" name="propaganda" value="wpropaganda">
+            Permitido enviar propaganda por whatsapp
+
+
+            <br><input type="submit" value="Enviar">
+        </fieldset>
+
+        <fieldset>
+            <legend>Cadastro Funcionário</legend>
+            Nome:<br>
+            <input type="text" name="nome"> <br>
+            Sobrenome:<br>
+            <input type="text" name="sobrenome"><br>
+            CPF:<br>
+            <input type="text" name="cpf"><br>
+            <input type="radio" name="sex" value="masculino" checked>
+            Masculino <br>
+            <input type="radio" name="sex" value="feminino">
+            Feminino<br>
+            <input type="radio" name="sex" value="outro">
+            Outro
+
+
+            <select name="cargo">
+                <option value="operacional" selected>Operacional</option>
+                <option value="tatico">Tático</option>
+                <option value="estrategico">Estratégico</option>
+            </select>
+            <br><input type="submit" value="Enviar">
+        </fieldset>
+    </form>
     <div class="container">
 
         <div class="row">
-            <div class="col-sm-4 "><p>Pablo</p></div>
-            <div class="col-sm-8"><p>Denilson</p></div>
+            <div class="col-sm-4 ">
+                <p>Pablo</p>
+            </div>
+            <div class="col-sm-8">
+                <p>Denilson</p>
+            </div>
         </div>
     </div>
     <footer>
+        <h3 id="secao1">contato</h3>
+        <p> Meu S/A - CNPJ: 00.000.000/0000-00 <br>
+            ® MeuPetshop - Todos os direitos reservados <br>
+
+        <p>
     </footer>
 </body>
+
 </html>

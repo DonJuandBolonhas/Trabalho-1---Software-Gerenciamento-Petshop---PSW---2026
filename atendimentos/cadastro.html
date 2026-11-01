@@ -97,8 +97,38 @@
             </div>
         </nav>
     </header>
-    <main class="container my-5">
-        
+   <main class="container my-5">
+                <h1 class="cabecalho">Cadastro Atendimento</h1>
+        <ul>
+            <li><a href="#secao1">Consultar anotações</a></li>
+        </ul>
+        <form action="acao.php" method="POST" style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
+        <fieldset>
+                <legend>Preencha os dados do Atendimento:</legend>
+                <label for="atendimento">Número do atendimento:</label><br>
+                <input type="number" id="atendimento" name="atendimento" min="0"><br>
+                 
+                
+                <label for="nomea">Nome do animal:</label><br>
+                <input type="text" id="nomea" name="nomea"> <br>
+
+                <label for="nomet">Nome do Tutor:</label><br>
+                <input type="text" id="nomet" name="nomet"> <br>
+
+                <label for="nomef">Nome do Funcionário:</label><br>
+                <input type="text" id="nomef" name="nomef"> <br>
+
+                <label for="tutor">Tutor:</label><br>
+                <input type="text" id="tutor" name="tutor"> <br>
+
+                <label for="data"> Data do Atendimento:</label><br>
+                <input type="date" id="data" name="data"><br><br>
+
+                <label for="message"  id="secao1">Anotações:</label><br>
+                <textarea name="message" id="message" rows="10" cols="50"></textarea><br>
+                <br><input type="submit" value="Salvar">
+            </fieldset>
+        </form>
     </main>
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-1">Suporte: <a href="mailto:ra@uem.br" class="text-light font-weight-bold">ra@uem.br</a></p>

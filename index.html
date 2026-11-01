@@ -6,7 +6,6 @@
     <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS ">
     <meta charset="UTF-8">
     <meta name="author" content="Denilson P.M., Pablo F.S.L.">
-    <!-- não parece ser útil <meta http-equiv="refresh" content="30"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -97,9 +96,45 @@
             </div>
         </nav>
     </header>
+
     <main class="container my-5">
         <h1 id="titulo" class="text-center mb-4">Bem-vindo ao Meu Petshop</h1>
 
+        <!-- Seção de Relatório de Registros armazenados no localStorage -->
+        <section class="card shadow-sm p-4 mb-5">
+            <h2 class="h4 text-center mb-3">Relatório de Registros no Sistema</h2>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover text-center mb-0">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">Entidade</th>
+                            <th scope="col">Quantidade Registrada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Clientes</td>
+                            <td id="qtd-clientes">0</td>
+                        </tr>
+                        <tr>
+                            <td>Atendimentos</td>
+                            <td id="qtd-atendimentos">0</td>
+                        </tr>
+                        <tr>
+                            <td>Animais</td>
+                            <td id="qtd-animais">0</td>
+                        </tr>
+                        <tr>
+                            <td>Funcionários</td>
+                            <td id="qtd-funcionarios">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Cards dos Criadores -->
+        <h2 class="h4 text-center mb-3">Desenvolvedores</h2>
         <div class="row text-center">
             <div class="col-md-6 mb-3">
                 <div class="card p-3 shadow-sm">
@@ -115,6 +150,7 @@
             </div>
         </div>
     </main>
+
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-1">Suporte: <a href="mailto:ra@uem.br" class="text-light font-weight-bold">ra@uem.br</a></p>
         <p class="mb-0">Meu S/A - CNPJ: 00.000.000/0000-00</p>
@@ -124,7 +160,28 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-</body>
+
+    <!-- Script para carregar dinamicamente as quantidades salvas no localStorage -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function obterQuantidade(chave) {
+                const dados = localStorage.getItem(chave);
+                if (!dados) return 0;
+                try {
+                    const parsed = JSON.parse(dados);
+                    return Array.isArray(parsed) ? parsed.length : 0;
+                } catch (e) {
+                    return 0;
+                }
+            }
+
+            
+            document.getElementById('qtd-clientes').textContent = obterQuantidade('petshop_clientes');
+            document.getElementById('qtd-atendimentos').textContent = obterQuantidade('atendimentos');
+            document.getElementById('qtd-animais').textContent = obterQuantidade('animais');
+            document.getElementById('qtd-funcionarios').textContent = obterQuantidade('funcionarios');
+        });
+    </script>
 </body>
 
 </html>

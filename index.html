@@ -19,32 +19,30 @@
         crossorigin="anonymous"></script>
 
     <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="icon" type="image/x-icon" href="imagens/favicon.ico">
-    <title>Petshop</title>
+    <link rel="icon" type="image/x-icon" href="imagens/favicon.png">
+    <title>Petshop - MEU - Gerenciamento</title>
 </head>
 
 <body>
     <header>
         <h1>Meu Petshop</h1>
 
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="contato.html">Contato</a></li>
+            <li> <a href="sobre.html"> Sobre</a></li>
+        </ul>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
             <!-- Brand -->
-            <a class="navbar-brand" href="index.html"><img src="imagens/favicon.ico" alt="Logo" width="30"
-                    height="30"></a>
+            <a class="navbar-brand" href="#">
+                
+                <img src="imagens/favicon.png" width="50px" height="50px">
 
-            <!-- Links -->
-            <ul class="navbar-nav w-100">
-                <li class="nav-item">
-                    <a class="nav-link" href="index.html">Início</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="sobre.html">Sobre</a>
-                </li>
+            </a>
 
-                <!-- Dropdown -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Cadastrar Clientes
+                        Gerenciar Clientes
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="clientes/alteracao.html">Alteração</a>
@@ -57,7 +55,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Cadastrar Atendimentos
+                        Gerenciar Atendimentos
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="atendimentos/alteracao.html">Alteração</a>
@@ -70,7 +68,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Cadastrar Animais
+                        Gerenciar Animais
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="animais/alteracao.html">Alteração</a>
@@ -83,7 +81,7 @@
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-                        Cadastrar Funcionários
+                        Gerenciar Funcionários
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="funcionarios/alteracao.html">Alteração</a>
@@ -102,6 +100,7 @@
                         <button class="btn btn-success" type="submit">Search</button>
                     </form>
                 </li>
+
             </ul>
         </nav>
     </header>

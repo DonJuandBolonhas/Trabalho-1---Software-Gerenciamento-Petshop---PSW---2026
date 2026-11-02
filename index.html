@@ -3,7 +3,7 @@
 
 <head>
     <meta name="keywords" content="pet, petshop, trabalhonota10">
-    <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS ">
+    <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS">
     <meta charset="UTF-8">
     <meta name="author" content="Denilson P.M., Pablo F.S.L.">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
     <title>Petshop - MEU - Gerenciamento</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="index.html">
@@ -39,7 +39,7 @@
                         <a class="nav-link" href="contato.html">Contato</a>
                     </li>
 
-                    <!-- Dropdowns -->
+                    <!-- Dropdowns (Sequência: Clientes, Atendimentos, Animais, Funcionários) -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropClientes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Clientes
@@ -88,44 +88,131 @@
                         </div>
                     </li>
                 </ul>
-
             </div>
         </nav>
     </header>
 
-    <main class="container my-5">
-        <h1 id="titulo" class="text-center mb-4">Bem-vindo ao Meu Petshop</h1>
+    <main class="container-fluid my-5 px-4">
+        <h1 id="titulo" class="text-center mb-4">Relatório Geral do Banco de Dados</h1>
 
-        <!-- Seção de Relatório de Registros armazenados no localStorage -->
-        <section class="card shadow-sm p-4 mb-5">
-            <h2 class="h4 text-center mb-3">Relatório de Registros no Sistema</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-hover text-center mb-0">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Entidade</th>
-                            <th scope="col">Quantidade Registrada</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Clientes</td>
-                            <td id="qtd-clientes">0</td>
-                        </tr>
-                        <tr>
-                            <td>Atendimentos</td>
-                            <td id="qtd-atendimentos">0</td>
-                        </tr>
-                        <tr>
-                            <td>Animais</td>
-                            <td id="qtd-animais">0</td>
-                        </tr>
-                        <tr>
-                            <td>Funcionários</td>
-                            <td id="qtd-funcionarios">0</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <!-- 1. ENTIDADE: CLIENTES -->
+        <section class="card shadow-sm mb-5">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">1. Clientes</h2>
+                <span class="badge badge-light" id="badge-clientes">0 registros</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover mb-0 text-nowrap">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>RG</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Data Nasc.</th>
+                                <th>Gênero</th>
+                                <th>Cidade</th>
+                                <th>Propaganda E-mail</th>
+                                <th>Propaganda WhatsApp</th>
+                                <th>Qtd. Pets</th>
+                                <th>Logradouro</th>
+                                <th>Anotações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-clientes-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. ENTIDADE: ATENDIMENTOS -->
+        <section class="card shadow-sm mb-5">
+            <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">2. Atendimentos</h2>
+                <span class="badge badge-light" id="badge-atendimentos">0 registros</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover mb-0 text-nowrap">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID / Nº Atendimento</th>
+                                <th>Animal</th>
+                                <th>Tutor</th>
+                                <th>Funcionário</th>
+                                <th>Data Atendimento</th>
+                                <th>Anotações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-atendimentos-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. ENTIDADE: ANIMAIS -->
+        <section class="card shadow-sm mb-5">
+            <div class="card-header bg-warning text-dark d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">3. Animais</h2>
+                <span class="badge badge-dark" id="badge-animais">0 registros</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover mb-0 text-nowrap">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Tutor</th>
+                                <th>CPF Tutor</th>
+                                <th>SinPatinhas</th>
+                                <th>Peso</th>
+                                <th>Altura (cm)</th>
+                                <th>Espécie</th>
+                                <th>Gênero</th>
+                                <th>Data Nasc.</th>
+                                <th>Microchip</th>
+                                <th>Anotações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-animais-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. ENTIDADE: FUNCIONÁRIOS -->
+        <section class="card shadow-sm mb-5">
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                <h2 class="h5 mb-0">4. Funcionários</h2>
+                <span class="badge badge-light" id="badge-funcionarios">0 registros</span>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover mb-0 text-nowrap">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>RG</th>
+                                <th>Matrícula</th>
+                                <th>Telefone</th>
+                                <th>E-mail</th>
+                                <th>Data Nasc.</th>
+                                <th>Gênero</th>
+                                <th>Cargo</th>
+                                <th>Qualificação</th>
+                                <th>Carga Horária</th>
+                                <th>Descrição Cargo</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-funcionarios-body"></tbody>
+                    </table>
+                </div>
             </div>
         </section>
 
@@ -135,13 +222,13 @@
             <div class="col-md-6 mb-3">
                 <div class="card p-3 shadow-sm">
                     <h3>Pablo</h3>
-                    <p>Desenvolvedor / Integrante do Projeto</p>
+                    <p class="mb-0">Desenvolvedor / Integrante do Projeto</p>
                 </div>
             </div>
             <div class="col-md-6 mb-3">
                 <div class="card p-3 shadow-sm">
                     <h3>Denilson</h3>
-                    <p>Desenvolvedor / Integrante do Projeto</p>
+                    <p class="mb-0">Desenvolvedor / Integrante do Projeto</p>
                 </div>
             </div>
         </div>
@@ -157,25 +244,138 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <!-- Script para carregar dinamicamente as quantidades salvas no localStorage -->
+    <!-- Script para carregar e renderizar os dados de todas as entidades -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            function obterQuantidade(chave) {
+            
+            // Função utilitária para formatar valores nulos, undefined ou vazios
+            function formatar(valor) {
+                if (valor === null || valor === undefined || valor === '' || (typeof valor === 'string' && valor.trim() === '')) {
+                    return '<em class="text-muted">não informado</em>';
+                }
+                return valor;
+            }
+
+            // Função para buscar dados em array no localStorage
+            function obterDados(chave) {
                 const dados = localStorage.getItem(chave);
-                if (!dados) return 0;
+                if (!dados) return [];
                 try {
                     const parsed = JSON.parse(dados);
-                    return Array.isArray(parsed) ? parsed.length : 0;
+                    return Array.isArray(parsed) ? parsed : [];
                 } catch (e) {
-                    return 0;
+                    return [];
                 }
             }
 
-            
-            document.getElementById('qtd-clientes').textContent = obterQuantidade('petshop_clientes');
-            document.getElementById('qtd-atendimentos').textContent = obterQuantidade('petshop_atendimentos');
-            document.getElementById('qtd-animais').textContent = obterQuantidade('petshop_animais');
-            document.getElementById('qtd-funcionarios').textContent = obterQuantidade('funcionarios');
+            // ----------------------------------------------------
+            // 1. RENDERING: CLIENTES (Chave: 'petshop_clientes')
+            // ----------------------------------------------------
+            const clientes = obterDados('petshop_clientes');
+            const tbodyClientes = document.getElementById('tabla-clientes-body');
+            document.getElementById('badge-clientes').textContent = `${clientes.length} registro(s)`;
+
+            if (clientes.length === 0) {
+                tbodyClientes.innerHTML = '<tr><td colspan="14" class="text-center text-muted py-3">Nenhum cliente cadastrado.</td></tr>';
+            } else {
+                tbodyClientes.innerHTML = clientes.map(c => `
+                    <tr>
+                        <td>${formatar(c.id)}</td>
+                        <td><strong>${formatar(c.nome)}</strong></td>
+                        <td>${formatar(c.cpf)}</td>
+                        <td>${formatar(c.rg)}</td>
+                        <td>${formatar(c.telefone)}</td>
+                        <td>${formatar(c.email)}</td>
+                        <td>${formatar(c.dataNascimento || c.data)}</td>
+                        <td>${formatar(c.genero || c.sex)}</td>
+                        <td>${formatar(c.cidade)}</td>
+                        <td>${c.propaganda?.email ? 'Sim' : 'Não'}</td>
+                        <td>${c.propaganda?.whatsapp ? 'Sim' : 'Não'}</td>
+                        <td>${formatar(c.qtdPets || c.quantidade)}</td>
+                        <td>${formatar(c.logradouro)}</td>
+                        <td>${formatar(c.anotacoes || c.message)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // ----------------------------------------------------
+            // 2. RENDERING: ATENDIMENTOS (Chave: 'petshop_atendimentos')
+            // ----------------------------------------------------
+            const atendimentos = obterDados('petshop_atendimentos');
+            const tbodyAtendimentos = document.getElementById('tabla-atendimentos-body');
+            document.getElementById('badge-atendimentos').textContent = `${atendimentos.length} registro(s)`;
+
+            if (atendimentos.length === 0) {
+                tbodyAtendimentos.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-3">Nenhum atendimento cadastrado.</td></tr>';
+            } else {
+                tbodyAtendimentos.innerHTML = atendimentos.map(a => `
+                    <tr>
+                        <td>${formatar(a.numAtendimento || a.atendimento || a.id)}</td>
+                        <td>${formatar(a.nomeAnimal || a.nomea)}</td>
+                        <td>${formatar(a.nomeTutor || a.nomet)}</td>
+                        <td>${formatar(a.nomeFuncionario || a.nomef)}</td>
+                        <td>${formatar(a.dataAtendimento || a.data)}</td>
+                        <td>${formatar(a.anotacoes || a.message)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // ----------------------------------------------------
+            // 3. RENDERING: ANIMAIS (Chave: 'petshop_animais')
+            // ----------------------------------------------------
+            const animais = obterDados('petshop_animais');
+            const tbodyAnimais = document.getElementById('tabla-animais-body');
+            document.getElementById('badge-animais').textContent = `${animais.length} registro(s)`;
+
+            if (animais.length === 0) {
+                tbodyAnimais.innerHTML = '<tr><td colspan="12" class="text-center text-muted py-3">Nenhum animal cadastrado.</td></tr>';
+            } else {
+                tbodyAnimais.innerHTML = animais.map(an => `
+                    <tr>
+                        <td>${formatar(an.id)}</td>
+                        <td><strong>${formatar(an.nome)}</strong></td>
+                        <td>${formatar(an.tutor)}</td>
+                        <td>${formatar(an.cpfTutor || an.cpftutor)}</td>
+                        <td>${formatar(an.rgAnimal || an.rganimal)}</td>
+                        <td>${formatar(an.peso)}</td>
+                        <td>${formatar(an.altura)}</td>
+                        <td>${formatar(an.especie)}</td>
+                        <td>${formatar(an.genero || an.sex)}</td>
+                        <td>${formatar(an.dataNascimento || an.data)}</td>
+                        <td>${an.microchip || an.micro === 'sim' ? 'Sim' : 'Não'}</td>
+                        <td>${formatar(an.anotacoes || an.message)}</td>
+                    </tr>
+                `).join('');
+            }
+
+            // ----------------------------------------------------
+            // 4. RENDERING: FUNCIONÁRIOS (Chave: 'funcionarios')
+            // ----------------------------------------------------
+            const funcionarios = obterDados('funcionarios');
+            const tbodyFuncionarios = document.getElementById('tabla-funcionarios-body');
+            document.getElementById('badge-funcionarios').textContent = `${funcionarios.length} registro(s)`;
+
+            if (funcionarios.length === 0) {
+                tbodyFuncionarios.innerHTML = '<tr><td colspan="13" class="text-center text-muted py-3">Nenhum funcionário cadastrado.</td></tr>';
+            } else {
+                tbodyFuncionarios.innerHTML = funcionarios.map(f => `
+                    <tr>
+                        <td>${formatar(f.id)}</td>
+                        <td><strong>${formatar(f.nome)}</strong></td>
+                        <td>${formatar(f.cpf)}</td>
+                        <td>${formatar(f.rg)}</td>
+                        <td>${formatar(f.matricula)}</td>
+                        <td>${formatar(f.telefone)}</td>
+                        <td>${formatar(f.email)}</td>
+                        <td>${formatar(f.dataNascimento || f.data)}</td>
+                        <td>${formatar(f.genero || f.sex)}</td>
+                        <td>${formatar(f.tipoCargo || f.tipocargo)}</td>
+                        <td>${formatar(f.qualificacao)}</td>
+                        <td>${formatar(f.cargaHoraria || f.quantidade)}</td>
+                        <td>${formatar(f.descricaoCargo || f.message)}</td>
+                    </tr>
+                `).join('');
+            }
         });
     </script>
 </body>

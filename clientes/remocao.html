@@ -12,12 +12,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <link rel="icon" type="image/x-icon" href="../imagens/favicon.png">
     <title>Petshop - MEU - Remoção de Cliente</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="../index.html">
@@ -90,10 +90,6 @@
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0" action="/action_page.php">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
             </div>
         </nav>
     </header>
@@ -107,7 +103,7 @@
                 Buscar Cliente para Remoção
             </div>
             <div class="card-body">
-                <form id="form-busca-remocao">
+                <form id="form-busca-remocao" onsubmit="return false;">
                     <div class="form-row align-items-end">
                         <div class="form-group col-md-4 mb-2 mb-md-0">
                             <label for="tipoBusca">Buscar por</label>

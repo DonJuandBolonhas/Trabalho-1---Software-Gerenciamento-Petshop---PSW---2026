@@ -1,43 +1,53 @@
-// Garante que o StorageService só será declarado se ainda não existir
+// Verifica se a classe genérica StorageService já foi declarada para evitar erros de duplicidade
 if (typeof window.StorageService === 'undefined') {
     window.StorageService = class StorageService {
         constructor(key) {
+            // Armazena a chave utilizada para identificar os dados no localStorage (ex: 'funcionarios')
             this.key = key;
         }
 
+        // Lê e converte os dados do localStorage em um array de objetos
         obterTodos() {
             const dados = localStorage.getItem(this.key);
             return dados ? JSON.parse(dados) : [];
         }
 
+        // Busca um item específico na lista através do seu ID único
         obterPorId(id) {
             const itens = this.obterTodos();
             return itens.find(item => item.id === String(id)) || null;
         }
 
+        // Localiza um registro comparando apenas os números do CPF informado
         obterPorCpf(cpf) {
             const itens = this.obterTodos();
+            // Remove caracteres especiais do CPF para fazer uma busca segura
             const cpfLimpo = String(cpf).replace(/\D/g, '');
             return itens.find(item => String(item.cpf).replace(/\D/g, '') === cpfLimpo) || null;
         }
 
+        // Insere um novo registro ou atualiza um registro já existente
         salvar(item) {
             const itens = this.obterTodos();
             
             if (!item.id) {
+                // Se o registro não possui ID, gera um código novo baseado na data/hora atual
                 item.id = Date.now().toString();
                 itens.push(item);
             } else {
+                // Se já possui ID, localiza a posição e faz o merge das informações
                 const index = itens.findIndex(i => i.id === String(item.id));
                 if (index !== -1) {
                     itens[index] = { ...itens[index], ...item };
                 }
             }
             
+            // Grava o array atualizado em formato textual (JSON) no localStorage
             localStorage.setItem(this.key, JSON.stringify(itens));
             return item;
         }
 
+        // Exclui o registro filtrando pelo CPF sem formatação
         removerPorCpf(cpf) {
             let itens = this.obterTodos();
             const cpfLimpo = String(cpf).replace(/\D/g, '');
@@ -55,19 +65,22 @@ class FuncionarioController {
         this.form = document.getElementById(formId);
         this.storage = new StorageService('funcionarios');
         
+        // Inicializa as verificações apenas se o formulário estiver na página ativa
         if (this.form) {
             this.iniciarEventos();
             this.checarParametroUrl();
         }
     }
 
+    // Configura as escutas do evento submit e da busca manual por CPF
     iniciarEventos() {
         this.form.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Impede o recarregamento automático da página
             event.stopPropagation();
             this.salvarFuncionario();
         });
 
+        // Escuta o clique no botão para buscar dados do funcionário via CPF
         const btnCarregar = document.getElementById('btn-carregar-cpf');
         if (btnCarregar) {
             btnCarregar.addEventListener('click', () => {
@@ -79,6 +92,7 @@ class FuncionarioController {
         }
     }
 
+    // Verifica se há parâmetro ?cpf=... na URL da página para pré-carregar os dados
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const cpfUrl = urlParams.get('cpf');
@@ -87,6 +101,7 @@ class FuncionarioController {
         }
     }
 
+    // Busca o funcionário pelo CPF e carrega seus dados nos campos para alteração
     carregarFuncionarioParaEdicao(cpf) {
         const funcionario = this.storage.obterPorCpf(cpf);
 
@@ -95,10 +110,10 @@ class FuncionarioController {
             return;
         }
 
-        // Armazena o ID interno do registro no dataset para indicar que é edição
+        // Grava o ID no atributo dataset do formulário para identificar o modo de edição
         this.form.dataset.funcionarioId = funcionario.id;
 
-        // Preenchimento dos campos conforme os IDs/names do HTML
+        // Preenche os campos textuais com as informações salvas no banco
         if (document.getElementById('nome')) document.getElementById('nome').value = funcionario.nome || '';
         if (document.getElementById('cpf')) document.getElementById('cpf').value = funcionario.cpf || '';
         if (document.getElementById('rg')) document.getElementById('rg').value = funcionario.rg || '';
@@ -107,23 +122,25 @@ class FuncionarioController {
         if (document.getElementById('email')) document.getElementById('email').value = funcionario.email || '';
         if (document.getElementById('data')) document.getElementById('data').value = funcionario.dataNascimento || '';
         
-        // Selects (por name ou ID)
+        // Seleciona a opção do select do tipo de cargo
         const selectCargo = this.form.querySelector('select[name="tipocargo"]');
         if (selectCargo) selectCargo.value = funcionario.tipoCargo || 'operacional';
 
+        // Seleciona a opção do select de nível de qualificação
         const selectQualificacao = this.form.querySelector('select[name="qualificacao"]');
         if (selectQualificacao) selectQualificacao.value = funcionario.qualificacao || 'ensinofundamentalc';
 
         if (document.getElementById('quantidade')) document.getElementById('quantidade').value = funcionario.cargaHoraria || '';
         if (document.getElementById('message')) document.getElementById('message').value = funcionario.descricaoCargo || '';
 
-        // Radio do Gênero
+        // Marca a opção correspondente do radio button de gênero
         if (funcionario.genero) {
             const radioGenero = this.form.querySelector(`input[name="sex"][value="${funcionario.genero}"]`);
             if (radioGenero) radioGenero.checked = true;
         }
     }
 
+    // Extrai e organiza todos os dados informados no formulário
     obterDadosFormulario() {
         const formData = new FormData(this.form);
 
@@ -145,6 +162,7 @@ class FuncionarioController {
         };
     }
 
+    // Verifica se os campos obrigatórios foram preenchidos
     validar(funcionario) {
         if (!funcionario.nome) {
             alert('Por favor, informe o Nome do funcionário.');
@@ -157,6 +175,7 @@ class FuncionarioController {
         return true;
     }
 
+    // Efetua a gravação do funcionário no banco do navegador
     salvarFuncionario() {
         const funcionario = this.obterDadosFormulario();
 
@@ -169,6 +188,7 @@ class FuncionarioController {
             const mensagem = funcionario.id ? 'Funcionário alterado com sucesso!' : 'Funcionário cadastrado com sucesso!';
             alert(mensagem);
             
+            // Redireciona para a consulta em caso de edição ou limpa os campos em novo cadastro
             if (this.form.dataset.funcionarioId) {
                 window.location.href = 'consulta.html';
             } else {
@@ -196,9 +216,11 @@ class FuncionarioConsultaController {
         }
     }
 
+    // Inicializa a renderização e associa eventos para o campo de pesquisa
     iniciar() {
         this.renderizarTabela();
 
+        // Filtra a lista de funcionários instantaneamente durante a digitação
         if (this.inputFiltro) {
             this.inputFiltro.addEventListener('input', () => {
                 const termo = this.inputFiltro.value.toLowerCase().trim();
@@ -206,6 +228,7 @@ class FuncionarioConsultaController {
             });
         }
 
+        // Reseta o campo de busca e restaura os registros
         if (this.btnLimpar) {
             this.btnLimpar.addEventListener('click', () => {
                 this.inputFiltro.value = '';
@@ -214,6 +237,7 @@ class FuncionarioConsultaController {
         }
     }
 
+    // Gera o HTML das linhas da tabela aplicando filtro por nome, CPF ou matrícula
     renderizarTabela(filtro = '') {
         const funcionarios = this.storage.obterTodos();
         
@@ -226,6 +250,7 @@ class FuncionarioConsultaController {
 
         this.tabelaBody.innerHTML = '';
 
+        // Exibe linha informativa quando nenhum resultado for localizado
         if (funcionariosFiltrados.length === 0) {
             this.tabelaBody.innerHTML = `
                 <tr>
@@ -237,6 +262,7 @@ class FuncionarioConsultaController {
             return;
         }
 
+        // Insere as linhas com as informações dos funcionários encontrados
         funcionariosFiltrados.forEach(funcionario => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -254,6 +280,7 @@ class FuncionarioConsultaController {
         });
     }
 
+    // Método utilitário para previr injeção de código malicioso (XSS)
     escaparHtml(texto) {
         const div = document.createElement('div');
         div.textContent = texto;
@@ -279,6 +306,7 @@ class FuncionarioRemocaoController {
         }
     }
 
+    // Configura os botões de ação para pesquisa e exclusão
     iniciarEventos() {
         const btnBuscar = document.getElementById('btn-buscar-funcionario');
         if (btnBuscar) {
@@ -291,6 +319,7 @@ class FuncionarioRemocaoController {
         }
     }
 
+    // Carrega o funcionário automaticamente se o CPF vier pela URL
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const cpfUrl = urlParams.get('cpf');
@@ -301,6 +330,7 @@ class FuncionarioRemocaoController {
         }
     }
 
+    // Realiza a pesquisa de acordo com o filtro selecionado (CPF, ID ou Nome)
     buscarFuncionario() {
         const tipoBusca = document.getElementById('tipoBusca').value;
         const termo = document.getElementById('termoBusca').value.trim();
@@ -330,6 +360,7 @@ class FuncionarioRemocaoController {
         }
     }
 
+    // Método direto para busca usando o CPF
     carregarFuncionarioPorCpf(cpf) {
         const funcionario = this.storage.obterPorCpf(cpf);
         if (funcionario) {
@@ -340,6 +371,7 @@ class FuncionarioRemocaoController {
         }
     }
 
+    // Apresenta as informações do funcionário no card de confirmação de exclusão
     exibirFuncionario(funcionario) {
         this.funcionarioAtual = funcionario;
 
@@ -356,12 +388,14 @@ class FuncionarioRemocaoController {
         if (this.cardDados) this.cardDados.classList.remove('d-none');
     }
 
+    // Esconde o card de dados quando a pesquisa não retorna resultados
     ocultarFuncionario() {
         this.funcionarioAtual = null;
         if (this.cardDados) this.cardDados.classList.add('d-none');
         if (this.painelVazio) this.painelVazio.classList.remove('d-none');
     }
 
+    // Remove o funcionário selecionado do localStorage e redireciona para a consulta
     executarExclusao() {
         if (!this.funcionarioAtual || !this.funcionarioAtual.cpf) {
             alert('Nenhum funcionário selecionado para remoção.');
@@ -384,6 +418,7 @@ class FuncionarioRemocaoController {
     }
 }
 
+// Instancia as classes controladoras dependendo dos elementos identificados na página atual
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('form-funcionario')) {
         new FuncionarioController('form-funcionario');

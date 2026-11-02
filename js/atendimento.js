@@ -1,37 +1,44 @@
-// Garante o reuso da classe genérica StorageService
+// Garante o reuso da classe genérica StorageService apenas se ela ainda não existir na janela
 if (typeof window.StorageService === 'undefined') {
     window.StorageService = class StorageService {
         constructor(key) {
             this.key = key;
         }
 
+        // Recupera todos os registros armazenados na chave indicada ou retorna lista vazia
         obterTodos() {
             const dados = localStorage.getItem(this.key);
             return dados ? JSON.parse(dados) : [];
         }
 
+        // Procura um item na lista através do seu ID único
         obterPorId(id) {
             const itens = this.obterTodos();
             return itens.find(item => item.id === String(id)) || null;
         }
 
+        // Grava um novo item no array ou atualiza as informações do item existente
         salvar(item) {
             const itens = this.obterTodos();
             
             if (!item.id) {
+                // Se o item não tem ID, cria um usando o timestamp atual como identificador
                 item.id = Date.now().toString();
                 itens.push(item);
             } else {
+                // Caso já tenha ID, localiza a posição e faz o merge dos dados antigos com os novos
                 const index = itens.findIndex(i => i.id === String(item.id));
                 if (index !== -1) {
                     itens[index] = { ...itens[index], ...item };
                 }
             }
             
+            // Salva a lista atualizada no localStorage em formato textual (JSON)
             localStorage.setItem(this.key, JSON.stringify(itens));
             return item;
         }
 
+        // Exclui um item da lista filtrando pelo ID
         removerPorId(id) {
             let itens = this.obterTodos();
             itens = itens.filter(item => String(item.id) !== String(id));
@@ -40,16 +47,20 @@ if (typeof window.StorageService === 'undefined') {
     };
 }
 
+// Especialização da classe base para lidar com particularidades da chave de Atendimentos
 class AtendimentoStorageService extends StorageService {
     constructor() {
+        // Inicializa o serviço base passando a chave específica dos atendimentos
         super('petshop_atendimentos');
     }
 
+    // Busca rápida usando o número do atendimento em vez do ID interno
     obterPorNumero(numero) {
         const itens = this.obterTodos();
         return itens.find(item => String(item.numeroAtendimento) === String(numero)) || null;
     }
 
+    // Remove o registro da chave utilizando o número do atendimento
     removerPorNumero(numero) {
         let itens = this.obterTodos();
         itens = itens.filter(item => String(item.numeroAtendimento) !== String(numero));
@@ -57,6 +68,7 @@ class AtendimentoStorageService extends StorageService {
     }
 }
 
+// Controlador para gerenciar o formulário de inclusão e edição de atendimentos
 class AtendimentoController {
     constructor(formId) {
         this.form = document.getElementById(formId);
@@ -68,13 +80,15 @@ class AtendimentoController {
         }
     }
 
+    // Associa eventos de envio do formulário e buscas manuais
     iniciarEventos() {
         this.form.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Cancela a atualização padrão do formulário
             event.stopPropagation();
             this.salvarAtendimento();
         });
 
+        // Clique para carregar o atendimento pelo número na tela de edição
         const btnCarregar = document.getElementById('btn-carregar-numero');
         if (btnCarregar) {
             btnCarregar.addEventListener('click', () => {
@@ -86,6 +100,7 @@ class AtendimentoController {
         }
     }
 
+    // Identifica se foi passado um parâmetro ?numero=... na URL do navegador
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const numeroUrl = urlParams.get('numero');
@@ -94,6 +109,7 @@ class AtendimentoController {
         }
     }
 
+    // Preenche os campos do formulário com as informações registradas no atendimento
     carregarAtendimentoParaEdicao(numero) {
         const atendimento = this.storage.obterPorNumero(numero);
 
@@ -102,6 +118,7 @@ class AtendimentoController {
             return;
         }
 
+        // Registra o ID no atributo de dados do form para controlar o modo de edição
         this.form.dataset.atendimentoId = atendimento.id;
 
         if (document.getElementById('atendimento')) document.getElementById('atendimento').value = atendimento.numeroAtendimento || '';
@@ -112,6 +129,7 @@ class AtendimentoController {
         if (document.getElementById('message')) document.getElementById('message').value = atendimento.anotacoes || '';
     }
 
+    // Coleta as entradas do formulário e organiza em um objeto JavaScript
     obterDadosFormulario() {
         const formData = new FormData(this.form);
 
@@ -127,6 +145,7 @@ class AtendimentoController {
         };
     }
 
+    // Valida o preenchimento de campos essenciais antes do envio
     validar(atendimento) {
         if (!atendimento.numeroAtendimento) {
             alert('Por favor, informe o número do atendimento.');
@@ -143,6 +162,7 @@ class AtendimentoController {
         return true;
     }
 
+    // Efetua a gravação do registro no localStorage
     salvarAtendimento() {
         const atendimento = this.obterDadosFormulario();
 
@@ -155,6 +175,7 @@ class AtendimentoController {
             const mensagem = atendimento.id ? 'Atendimento alterado com sucesso!' : 'Atendimento cadastrado com sucesso!';
             alert(mensagem);
             
+            // Redireciona para a consulta caso esteja editando ou reseta a tela em novo registro
             if (this.form.dataset.atendimentoId) {
                 window.location.href = 'consulta.html';
             } else {
@@ -167,6 +188,7 @@ class AtendimentoController {
     }
 }
 
+// Controladora da página de consulta e listagem dos atendimentos
 class AtendimentoConsultaController {
     constructor() {
         this.storage = new AtendimentoStorageService();
@@ -179,6 +201,7 @@ class AtendimentoConsultaController {
         }
     }
 
+    // Ativa a listagem inicial e a escuta do campo de filtro por pesquisa
     iniciar() {
         this.renderizarTabela();
 
@@ -197,6 +220,7 @@ class AtendimentoConsultaController {
         }
     }
 
+    // Renderiza a estrutura da tabela filtrando por número, animal, tutor ou funcionário
     renderizarTabela(filtro = '') {
         const atendimentos = this.storage.obterTodos();
         
@@ -221,6 +245,7 @@ class AtendimentoConsultaController {
             return;
         }
 
+        // Monta o elemento HTML para cada linha de atendimento encontrada
         filtrados.forEach(atendimento => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -238,6 +263,7 @@ class AtendimentoConsultaController {
         });
     }
 
+    // Sanitiza strings dinâmicas inseridas nas células contra códigos maliciosos (XSS)
     escaparHtml(texto) {
         const div = document.createElement('div');
         div.textContent = texto;
@@ -245,6 +271,7 @@ class AtendimentoConsultaController {
     }
 }
 
+// Controller que gerencia a busca e exclusão de um atendimento selecionado
 class AtendimentoRemocaoController {
     constructor() {
         this.storage = new AtendimentoStorageService();
@@ -260,6 +287,7 @@ class AtendimentoRemocaoController {
         }
     }
 
+    // Registra as escutas do botão de pesquisa e da ação de confirmação do modal
     iniciarEventos() {
         const btnBuscar = document.getElementById('btn-buscar-atendimento');
         if (btnBuscar) {
@@ -272,6 +300,7 @@ class AtendimentoRemocaoController {
         }
     }
 
+    // Lê os parâmetros de URL caso o usuário venha direto da tela de consulta
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const numeroUrl = urlParams.get('numero');
@@ -284,6 +313,7 @@ class AtendimentoRemocaoController {
         }
     }
 
+    // Procura o registro conforme o tipo de busca selecionado no elemento select (número, ID ou tutor)
     buscarAtendimento() {
         const tipoBusca = document.getElementById('tipoBusca')?.value;
         const termo = document.getElementById('termoBusca')?.value.trim();
@@ -313,6 +343,7 @@ class AtendimentoRemocaoController {
         }
     }
 
+    // Busca rápida utilizando a chave do número do atendimento
     carregarAtendimentoPorNumero(numero) {
         const atendimento = this.storage.obterPorNumero(numero);
         if (atendimento) {
@@ -323,6 +354,7 @@ class AtendimentoRemocaoController {
         }
     }
 
+    // Mostra as informações do atendimento na área de confirmação de exclusão
     exibirAtendimento(atendimento) {
         this.atendimentoAtual = atendimento;
 
@@ -340,12 +372,14 @@ class AtendimentoRemocaoController {
         if (this.cardDados) this.cardDados.classList.remove('d-none');
     }
 
+    // Oculta a área de detalhes quando a busca falha ou não traz dados
     ocultarAtendimento() {
         this.atendimentoAtual = null;
         if (this.cardDados) this.cardDados.classList.add('d-none');
         if (this.painelVazio) this.painelVazio.classList.remove('d-none');
     }
 
+    // Executa a exclusão definitiva do registro do localStorage
     executarExclusao() {
         if (!this.atendimentoAtual || !this.atendimentoAtual.numeroAtendimento) {
             alert('Nenhum atendimento selecionado para remoção.');
@@ -368,6 +402,7 @@ class AtendimentoRemocaoController {
     }
 }
 
+// Inicializa a classe controladora correspondente aos elementos HTML presentes no DOM
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('form-atendimento')) {
         new AtendimentoController('form-atendimento');

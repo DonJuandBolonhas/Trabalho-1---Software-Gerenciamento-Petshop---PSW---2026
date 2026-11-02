@@ -1,37 +1,47 @@
-// Garante que o StorageService só será declarado se ainda não existir
+// Verifica se o StorageService já foi definido no escopo global para não dar erro de redeclaração
 if (typeof window.StorageService === 'undefined') {
+
+    // Classe responsável por intermediar todas as operações no localStorage para os animais
     window.StorageService = class StorageService {
         constructor(key) {
+            // Guarda a chave utilizada no banco do navegador (ex: 'petshop_animais')
             this.key = key;
         }
 
+        // Lê e converte os registros do localStorage em um array de objetos
         obterTodos() {
             const dados = localStorage.getItem(this.key);
             return dados ? JSON.parse(dados) : [];
         }
 
+        // Procura um animal específico com base no seu ID único
         obterPorId(id) {
             const itens = this.obterTodos();
             return itens.find(item => item.id === String(id)) || null;
         }
 
+        // Salva um novo registro ou atualiza as informações de um animal existente
         salvar(item) {
             const itens = this.obterTodos();
             
             if (!item.id) {
+                // Se não possui ID, gera um identificador único com base no timestamp
                 item.id = Date.now().toString();
                 itens.push(item);
             } else {
+                // Se o ID já existe, atualiza os dados do registro mantendo os campos anteriores
                 const index = itens.findIndex(i => i.id === String(item.id));
                 if (index !== -1) {
                     itens[index] = { ...itens[index], ...item };
                 }
             }
             
+            // Grava a lista atualizada no localStorage no formato JSON
             localStorage.setItem(this.key, JSON.stringify(itens));
             return item;
         }
 
+        // Filtra a lista removendo o item que possui o ID informado
         removerPorId(id) {
             let itens = this.obterTodos();
             itens = itens.filter(item => String(item.id) !== String(id));
@@ -48,19 +58,22 @@ class AnimalController {
         this.form = document.getElementById(formId);
         this.storage = new StorageService('petshop_animais');
         
+        // Se o formulário de cadastro/edição existir na página atual, dispara as verificações
         if (this.form) {
             this.iniciarEventos();
             this.checarParametroUrl();
         }
     }
 
+    // Configura os escutadores para captura de envio do formulário e busca manual por ID
     iniciarEventos() {
         this.form.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Evita a recarga padrão da página ao enviar
             event.stopPropagation();
             this.salvarAnimal();
         });
 
+        // Evento do botão que permite buscar um animal digitando o ID na página de alteração
         const btnCarregar = document.getElementById('btn-carregar-id');
         if (btnCarregar) {
             btnCarregar.addEventListener('click', () => {
@@ -72,6 +85,7 @@ class AnimalController {
         }
     }
 
+    // Verifica se a URL contém um parâmetro de ID (ex: alteracao.html?id=123) vindo de outra tela
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const idUrl = urlParams.get('id');
@@ -80,6 +94,7 @@ class AnimalController {
         }
     }
 
+    // Busca os dados do animal pelo ID e preenche os campos do formulário para edição
     carregarAnimalParaEdicao(id) {
         const animal = this.storage.obterPorId(id);
 
@@ -88,8 +103,10 @@ class AnimalController {
             return;
         }
 
+        // Armazena o ID no dataset do form para o script identificar que se trata de uma edição
         this.form.dataset.animalId = animal.id;
 
+        // Preenche os campos de texto do formulário com as informações do cadastro
         if (document.getElementById('nome')) document.getElementById('nome').value = animal.nome || '';
         if (document.getElementById('tutor')) document.getElementById('tutor').value = animal.tutor || '';
         if (document.getElementById('cpftutor')) document.getElementById('cpftutor').value = animal.cpfTutor || '';
@@ -100,15 +117,18 @@ class AnimalController {
         if (document.getElementById('data')) document.getElementById('data').value = animal.dataNascimento || '';
         if (document.getElementById('message')) document.getElementById('message').value = animal.anotacoes || '';
 
+        // Seleciona a opção do radio button referente ao gênero (macho/fêmea)
         if (animal.genero) {
             const radioGenero = this.form.querySelector(`input[name="sex"][value="${animal.genero}"]`);
             if (radioGenero) radioGenero.checked = true;
         }
 
+        // Marca a opção de microchip caso o animal possua
         const chkMicro = document.getElementById('micro');
         if (chkMicro) chkMicro.checked = Boolean(animal.microchip);
     }
 
+    // Captura as informações digitadas nos campos e estrutura o objeto do animal
     obterDadosFormulario() {
         const formData = new FormData(this.form);
         const possuiMicrochip = document.getElementById('micro')?.checked || false;
@@ -130,6 +150,7 @@ class AnimalController {
         };
     }
 
+    // Valida se os dados mínimos e obrigatórios foram preenchidos
     validar(animal) {
         if (!animal.nome) {
             alert('Por favor, informe o Nome do animal.');
@@ -142,6 +163,7 @@ class AnimalController {
         return true;
     }
 
+    // Salva o animal e redireciona para a consulta ou limpa o formulário
     salvarAnimal() {
         const animal = this.obterDadosFormulario();
 
@@ -154,6 +176,7 @@ class AnimalController {
             const mensagem = animal.id ? 'Animal alterado com sucesso!' : 'Animal cadastrado com sucesso!';
             alert(mensagem);
             
+            // Redireciona para a listagem se estiver editando ou limpa os campos se for novo registro
             if (this.form.dataset.animalId) {
                 window.location.href = 'consulta.html';
             } else {
@@ -181,9 +204,11 @@ class AnimalConsultaController {
         }
     }
 
+    // Inicia a renderização da tabela e adiciona a busca dinâmica conforme a digitação
     iniciar() {
         this.renderizarTabela();
 
+        // Filtra os animais em tempo real conforme a digitação no input
         if (this.inputFiltro) {
             this.inputFiltro.addEventListener('input', () => {
                 const termo = this.inputFiltro.value.toLowerCase().trim();
@@ -191,6 +216,7 @@ class AnimalConsultaController {
             });
         }
 
+        // Limpa o campo de filtro e restaura a lista completa
         if (this.btnLimpar) {
             this.btnLimpar.addEventListener('click', () => {
                 this.inputFiltro.value = '';
@@ -199,6 +225,7 @@ class AnimalConsultaController {
         }
     }
 
+    // Monta o HTML da tabela aplicando o filtro por nome do animal, tutor ou espécie
     renderizarTabela(filtro = '') {
         const animais = this.storage.obterTodos();
         
@@ -211,6 +238,7 @@ class AnimalConsultaController {
 
         this.tabelaBody.innerHTML = '';
 
+        // Se a busca não encontrar correspondências na base
         if (animaisFiltrados.length === 0) {
             this.tabelaBody.innerHTML = `
                 <tr>
@@ -222,6 +250,7 @@ class AnimalConsultaController {
             return;
         }
 
+        // Insere cada linha na tabela de consulta com os botões de editar e excluir
         animaisFiltrados.forEach(animal => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -239,6 +268,7 @@ class AnimalConsultaController {
         });
     }
 
+    // Trata os textos para impedir ataques do tipo XSS ao renderizar na tela
     escaparHtml(texto) {
         const div = document.createElement('div');
         div.textContent = texto;
@@ -264,6 +294,7 @@ class AnimalRemocaoController {
         }
     }
 
+    // Configura os escutadores de clique para pesquisar e confirmar a remoção
     iniciarEventos() {
         const btnBuscar = document.getElementById('btn-buscar-animal');
         if (btnBuscar) {
@@ -276,6 +307,7 @@ class AnimalRemocaoController {
         }
     }
 
+    // Carrega o registro direto se um ID for informado no parâmetro da URL
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const idUrl = urlParams.get('id');
@@ -286,6 +318,7 @@ class AnimalRemocaoController {
         }
     }
 
+    // Busca o animal por ID ou pelo nome fornecido no campo de pesquisa
     buscarAnimal() {
         const termo = document.getElementById('termoBusca')?.value.trim();
 
@@ -306,6 +339,7 @@ class AnimalRemocaoController {
         }
     }
 
+    // Carrega os detalhes do animal utilizando diretamente o ID
     carregarAnimalPorId(id) {
         const animal = this.storage.obterPorId(id);
         if (animal) {
@@ -316,6 +350,7 @@ class AnimalRemocaoController {
         }
     }
 
+    // Exibe os dados do animal encontrado no card de confirmação de exclusão
     exibirAnimal(animal) {
         this.animalAtual = animal;
 
@@ -333,12 +368,14 @@ class AnimalRemocaoController {
         if (this.cardDados) this.cardDados.classList.remove('d-none');
     }
 
+    // Oculta as informações da tela caso o registro não seja encontrado
     ocultarAnimal() {
         this.animalAtual = null;
         if (this.cardDados) this.cardDados.classList.add('d-none');
         if (this.painelVazio) this.painelVazio.classList.remove('d-none');
     }
 
+    // Apaga o registro do localStorage e redireciona de volta para a consulta
     executarExclusao() {
         if (!this.animalAtual || !this.animalAtual.id) {
             alert('Nenhum animal selecionado para remoção.');
@@ -348,6 +385,7 @@ class AnimalRemocaoController {
         try {
             this.storage.removerPorId(this.animalAtual.id);
 
+            // Se houver modal Bootstrap ativo, fecha antes do aviso
             if (typeof $ !== 'undefined') {
                 $('#modalConfirmacao').modal('hide');
             }
@@ -361,6 +399,7 @@ class AnimalRemocaoController {
     }
 }
 
+// Inicializa as instâncias dos controllers conforme os elementos presentes na tela atual
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('form-animal')) {
         new AnimalController('form-animal');

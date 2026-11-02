@@ -1,44 +1,55 @@
-// Garante que o StorageService só será declarado se ainda não existir
+// Evita sobrescrever a classe caso este script seja importado mais de uma vez na página
 if (typeof window.StorageService === 'undefined') {
+
+    // Classe responsável por gerenciar a leitura e escrita no localStorage de forma genérica
     window.StorageService = class StorageService {
         constructor(key) {
+            // Define a chave do localStorage (ex: 'petshop_clientes')
             this.key = key;
         }
 
+        // Retorna todos os registros salvos na chave ou uma lista vazia se não houver nada
         obterTodos() {
             const dados = localStorage.getItem(this.key);
             return dados ? JSON.parse(dados) : [];
         }
 
+        // Busca um item específico pelo seu ID único
         obterPorId(id) {
             const itens = this.obterTodos();
             return itens.find(item => item.id === String(id)) || null;
         }
 
+        // Busca um cliente pelo CPF limpo (apenas os dígitos numéricos)
         obterPorCpf(cpf) {
             const itens = this.obterTodos();
-            // Normaliza apenas números para garantir o confronto correto
+            // Remove pontuações e traços do CPF para comparar apenas números
             const cpfLimpo = String(cpf).replace(/\D/g, '');
             return itens.find(item => String(item.cpf).replace(/\D/g, '') === cpfLimpo) || null;
         }
 
+        // Insere um novo registro ou atualiza um existente
         salvar(item) {
             const itens = this.obterTodos();
             
             if (!item.id) {
+                // Se não tem ID, gera um novo utilizando a data/hora atual e adiciona à lista
                 item.id = Date.now().toString();
                 itens.push(item);
             } else {
+                // Se já tem ID, atualiza os dados do registro correspondente
                 const index = itens.findIndex(i => i.id === String(item.id));
                 if (index !== -1) {
                     itens[index] = { ...itens[index], ...item };
                 }
             }
             
+            // Grava o array atualizado de volta no localStorage em formato JSON
             localStorage.setItem(this.key, JSON.stringify(itens));
             return item;
         }
 
+        // Remove um registro com base no CPF fornecido
         removerPorCpf(cpf) {
             let itens = this.obterTodos();
             const cpfLimpo = String(cpf).replace(/\D/g, '');
@@ -49,6 +60,7 @@ if (typeof window.StorageService === 'undefined') {
 }
 
 
+// Gerencia as ações das telas de cadastro e edição de clientes
 class ClienteController {
     constructor(formId) {
         this.form = document.getElementById(formId);
@@ -60,14 +72,15 @@ class ClienteController {
         }
     }
 
+    // Configura os escutadores de eventos para o formulário e botões de busca
     iniciarEventos() {
         this.form.addEventListener('submit', (event) => {
-            event.preventDefault();
+            event.preventDefault(); // Impede a página de recarregar no envio
             event.stopPropagation();
             this.salvarCliente();
         });
 
-        // Botão manual de carregar por CPF (na página de alteração)
+        // Escuta o clique do botão de busca por CPF na tela de alteração
         const btnCarregar = document.getElementById('btn-carregar-cpf');
         if (btnCarregar) {
             btnCarregar.addEventListener('click', () => {
@@ -79,9 +92,7 @@ class ClienteController {
         }
     }
 
-    /**
-     * Código para tentar pegar o parametro da URL
-     */
+    // Verifica se o CPF foi passado via URL (ex: alteracao.html?cpf=123)
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const cpfUrl = urlParams.get('cpf');
@@ -90,9 +101,7 @@ class ClienteController {
         }
     }
 
-    /**
-     * Busca o cliente por CPF e preenche o formulário.
-     */
+    // Busca os dados do cliente e preenche os campos do formulário para edição
     carregarClienteParaEdicao(cpf) {
         const cliente = this.storage.obterPorCpf(cpf);
 
@@ -101,10 +110,10 @@ class ClienteController {
             return;
         }
 
-        // Armazena o ID interno do registro no dataset para saber que é edição
+        // Guarda o ID no dataset do form para indicar que é uma edição e não um novo cadastro
         this.form.dataset.clienteId = cliente.id;
 
-        // Preenchimento dos campos simples
+        // Preenchimento dos campos do formulário
         if (document.getElementById('nome')) document.getElementById('nome').value = cliente.nome || '';
         if (document.getElementById('cpf')) document.getElementById('cpf').value = cliente.cpf || '';
         if (document.getElementById('rg')) document.getElementById('rg').value = cliente.rg || '';
@@ -116,19 +125,20 @@ class ClienteController {
         if (document.getElementById('logradouro')) document.getElementById('logradouro').value = cliente.logradouro || '';
         if (document.getElementById('message')) document.getElementById('message').value = cliente.anotacoes || '';
 
-        // Preenchimento do Gênero
+        // Seleciona o radio button de gênero correspondente
         if (cliente.genero) {
             const radioGenero = this.form.querySelector(`input[name="sex"][value="${cliente.genero}"]`);
             if (radioGenero) radioGenero.checked = true;
         }
 
-        // Preenchimento de Checkboxes
+        // Ajusta os checkboxes de preferência de propaganda
         const chkEmail = document.getElementById('epropaganda');
         const chkWhatsapp = document.getElementById('wpropaganda');
         if (chkEmail) chkEmail.checked = Boolean(cliente.propaganda?.email);
         if (chkWhatsapp) chkWhatsapp.checked = Boolean(cliente.propaganda?.whatsapp);
     }
 
+    // Monta o objeto com os dados preenchidos no formulário
     obterDadosFormulario() {
         const formData = new FormData(this.form);
         
@@ -156,6 +166,7 @@ class ClienteController {
         };
     }
 
+    // Validação simples dos campos obrigatórios
     validar(cliente) {
         if (!cliente.nome) {
             alert('Por favor, informe o Nome do cliente.');
@@ -168,6 +179,7 @@ class ClienteController {
         return true;
     }
 
+    // Processa a gravação dos dados do cliente
     salvarCliente() {
         const cliente = this.obterDadosFormulario();
 
@@ -180,7 +192,7 @@ class ClienteController {
             const mensagem = cliente.id ? 'Cliente alterado com sucesso!' : 'Cliente cadastrado com sucesso!';
             alert(mensagem);
             
-            // Redireciona para a tela de consulta após salvar a edição
+            // Se for alteração, redireciona para a consulta; se for novo cadastro, limpa o formulário
             if (this.form.dataset.clienteId) {
                 window.location.href = 'consulta.html';
             } else {
@@ -193,9 +205,8 @@ class ClienteController {
     }
 }
 
-/**
- * Controladora para Tabela de Consulta de Clientes
- */
+
+// Gerencia a listagem e filtro na página de consulta de clientes
 class ClienteConsultaController {
     constructor() {
         this.storage = new StorageService('petshop_clientes');
@@ -208,9 +219,11 @@ class ClienteConsultaController {
         }
     }
 
+    // Inicializa a tabela e define os escutadores de busca/filtro
     iniciar() {
         this.renderizarTabela();
 
+        // Filtra a lista dinamicamente conforme a digitação no campo de busca
         if (this.inputFiltro) {
             this.inputFiltro.addEventListener('input', () => {
                 const termo = this.inputFiltro.value.toLowerCase().trim();
@@ -218,6 +231,7 @@ class ClienteConsultaController {
             });
         }
 
+        // Reseta o filtro de busca
         if (this.btnLimpar) {
             this.btnLimpar.addEventListener('click', () => {
                 this.inputFiltro.value = '';
@@ -226,9 +240,11 @@ class ClienteConsultaController {
         }
     }
 
+    // Constrói e exibe as linhas da tabela de acordo com o filtro digitado
     renderizarTabela(filtro = '') {
         const clientes = this.storage.obterTodos();
         
+        // Filtra clientes buscando correspondência no Nome ou CPF
         const clientesFiltrados = clientes.filter(c => {
             const nomeMatch = c.nome && c.nome.toLowerCase().includes(filtro);
             const cpfMatch = c.cpf && c.cpf.includes(filtro);
@@ -237,6 +253,7 @@ class ClienteConsultaController {
 
         this.tabelaBody.innerHTML = '';
 
+        // Exibe mensagem caso nenhum resultado seja encontrado
         if (clientesFiltrados.length === 0) {
             this.tabelaBody.innerHTML = `
                 <tr>
@@ -248,6 +265,7 @@ class ClienteConsultaController {
             return;
         }
 
+        // Preenche as linhas da tabela com os dados filtrados
         clientesFiltrados.forEach(cliente => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -265,6 +283,7 @@ class ClienteConsultaController {
         });
     }
 
+    // Trata caracteres especiais para prevenir ataques de injecção de HTML (XSS)
     escaparHtml(texto) {
         const div = document.createElement('div');
         div.textContent = texto;
@@ -272,9 +291,8 @@ class ClienteConsultaController {
     }
 }
 
-/**
- * Controladora para Remoção de Cliente
- */
+
+// Gerencia a exclusão de registros na página de remoção
 class ClienteRemocaoController {
     constructor() {
         this.storage = new StorageService('petshop_clientes');
@@ -290,6 +308,7 @@ class ClienteRemocaoController {
         }
     }
 
+    // Associa eventos aos botões de busca e confirmação de exclusão
     iniciarEventos() {
         const btnBuscar = document.getElementById('btn-buscar-cliente');
         if (btnBuscar) {
@@ -302,9 +321,7 @@ class ClienteRemocaoController {
         }
     }
 
-    /**
-     * Verifica se existe parametro ?cpf=... na URL (ex: redirecionado da Consulta)
-     */
+    // Carrega o cliente automaticamente caso venha um parâmetro CPF na URL
     checarParametroUrl() {
         const urlParams = new URLSearchParams(window.location.search);
         const cpfUrl = urlParams.get('cpf');
@@ -317,6 +334,7 @@ class ClienteRemocaoController {
         }
     }
 
+    // Executa a busca manual conforme o critério selecionado (CPF, ID ou Nome)
     buscarCliente() {
         const tipoBusca = document.getElementById('tipoBusca')?.value;
         const termo = document.getElementById('termoBusca')?.value.trim();
@@ -346,6 +364,7 @@ class ClienteRemocaoController {
         }
     }
 
+    // Busca o registro diretamente pelo CPF
     carregarClientePorCpf(cpf) {
         const cliente = this.storage.obterPorCpf(cpf);
         if (cliente) {
@@ -356,6 +375,7 @@ class ClienteRemocaoController {
         }
     }
 
+    // Exibe o card com os dados do cliente encontrado para confirmação
     exibirCliente(cliente) {
         this.clienteAtual = cliente;
 
@@ -374,12 +394,14 @@ class ClienteRemocaoController {
         if (this.cardDados) this.cardDados.classList.remove('d-none');
     }
 
+    // Oculta os detalhes do cliente quando nenhum resultado é retornado
     ocultarCliente() {
         this.clienteAtual = null;
         if (this.cardDados) this.cardDados.classList.add('d-none');
         if (this.painelVazio) this.painelVazio.classList.remove('d-none');
     }
 
+    // Remove o cliente selecionado do localStorage e redireciona para a consulta
     executarExclusao() {
         if (!this.clienteAtual || !this.clienteAtual.cpf) {
             alert('Nenhum cliente selecionado para remoção.');
@@ -402,6 +424,8 @@ class ClienteRemocaoController {
     }
 }
 
+
+// Instancia os controladores de acordo com a página que está aberta no momento
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('form-cliente')) {
         new ClienteController('form-cliente');

@@ -95,16 +95,33 @@ class FuncionarioController {
             return;
         }
 
+        // Armazena o ID interno do registro no dataset para indicar edição
         this.form.dataset.funcionarioId = funcionario.id;
 
+        // Preenchimento dos campos conforme o HTML do formulário
         if (document.getElementById('nome')) document.getElementById('nome').value = funcionario.nome || '';
         if (document.getElementById('cpf')) document.getElementById('cpf').value = funcionario.cpf || '';
-        if (document.getElementById('cargo')) document.getElementById('cargo').value = funcionario.cargo || '';
-        if (document.getElementById('salario')) document.getElementById('salario').value = funcionario.salario || '';
+        if (document.getElementById('rg')) document.getElementById('rg').value = funcionario.rg || '';
+        if (document.getElementById('matricula')) document.getElementById('matricula').value = funcionario.matricula || '';
         if (document.getElementById('telefone')) document.getElementById('telefone').value = funcionario.telefone || '';
         if (document.getElementById('email')) document.getElementById('email').value = funcionario.email || '';
-        if (document.getElementById('dataAdmissao')) document.getElementById('dataAdmissao').value = funcionario.dataAdmissao || '';
-        if (document.getElementById('anotacoes')) document.getElementById('anotacoes').value = funcionario.anotacoes || '';
+        if (document.getElementById('data')) document.getElementById('data').value = funcionario.dataNascimento || '';
+        
+        // Selects
+        const selectCargo = this.form.querySelector('select[name="tipocargo"]');
+        if (selectCargo) selectCargo.value = funcionario.tipoCargo || 'operacional';
+
+        const selectQualificacao = this.form.querySelector('select[name="qualificacao"]');
+        if (selectQualificacao) selectQualificacao.value = funcionario.qualificacao || 'ensinofundamentalc';
+
+        if (document.getElementById('quantidade')) document.getElementById('quantidade').value = funcionario.cargaHoraria || '';
+        if (document.getElementById('message')) document.getElementById('message').value = funcionario.descricaoCargo || '';
+
+        // Radio do Gênero
+        if (funcionario.genero) {
+            const radioGenero = this.form.querySelector(`input[name="sex"][value="${funcionario.genero}"]`);
+            if (radioGenero) radioGenero.checked = true;
+        }
     }
 
     obterDadosFormulario() {
@@ -114,12 +131,16 @@ class FuncionarioController {
             id: this.form.dataset.funcionarioId || null,
             nome: formData.get('nome')?.trim(),
             cpf: formData.get('cpf')?.trim(),
-            cargo: formData.get('cargo'),
-            salario: formData.get('salario'),
+            rg: formData.get('rg')?.trim(),
+            matricula: formData.get('matricula')?.trim(),
             telefone: formData.get('telefone')?.trim(),
             email: formData.get('email')?.trim(),
-            dataAdmissao: formData.get('dataAdmissao'),
-            anotacoes: formData.get('anotacoes'),
+            dataNascimento: formData.get('data'),
+            genero: formData.get('sex'),
+            tipoCargo: formData.get('tipocargo'),
+            qualificacao: formData.get('qualificacao'),
+            cargaHoraria: formData.get('quantidade'),
+            descricaoCargo: formData.get('message'),
             criadoEm: new Date().toISOString()
         };
     }
@@ -199,7 +220,8 @@ class FuncionarioConsultaController {
         const funcionariosFiltrados = funcionarios.filter(f => {
             const nomeMatch = f.nome && f.nome.toLowerCase().includes(filtro);
             const cpfMatch = f.cpf && f.cpf.includes(filtro);
-            return nomeMatch || cpfMatch;
+            const matriculaMatch = f.matricula && f.matricula.toLowerCase().includes(filtro);
+            return nomeMatch || cpfMatch || matriculaMatch;
         });
 
         this.tabelaBody.innerHTML = '';
@@ -220,7 +242,7 @@ class FuncionarioConsultaController {
             tr.innerHTML = `
                 <td><strong>${this.escaparHtml(funcionario.nome || '-')}</strong></td>
                 <td>${this.escaparHtml(funcionario.cpf || '-')}</td>
-                <td><span class="badge badge-secondary">${this.escaparHtml(funcionario.cargo || '-')}</span></td>
+                <td><span class="badge badge-secondary">${this.escaparHtml(funcionario.tipoCargo || '-')}</span></td>
                 <td>${this.escaparHtml(funcionario.telefone || '-')}</td>
                 <td>${this.escaparHtml(funcionario.email || '-')}</td>
                 <td class="text-center">
@@ -324,7 +346,7 @@ class FuncionarioRemocaoController {
         document.getElementById('info-id').textContent = funcionario.id ? `#${funcionario.id}` : '-';
         document.getElementById('info-nome').textContent = funcionario.nome || '-';
         document.getElementById('info-cpf').textContent = funcionario.cpf || '-';
-        document.getElementById('info-cargo').textContent = funcionario.cargo || '-';
+        document.getElementById('info-cargo').textContent = funcionario.tipoCargo || '-';
         document.getElementById('info-email').textContent = funcionario.email || '-';
         document.getElementById('info-telefone').textContent = funcionario.telefone || '-';
 

@@ -95,10 +95,10 @@ class FuncionarioController {
             return;
         }
 
-        // Armazena o ID interno do registro no dataset para indicar edição
+        // Armazena o ID interno do registro no dataset para indicar que é edição
         this.form.dataset.funcionarioId = funcionario.id;
 
-        // Preenchimento dos campos conforme o HTML do formulário
+        // Preenchimento dos campos conforme os IDs/names do HTML
         if (document.getElementById('nome')) document.getElementById('nome').value = funcionario.nome || '';
         if (document.getElementById('cpf')) document.getElementById('cpf').value = funcionario.cpf || '';
         if (document.getElementById('rg')) document.getElementById('rg').value = funcionario.rg || '';
@@ -107,7 +107,7 @@ class FuncionarioController {
         if (document.getElementById('email')) document.getElementById('email').value = funcionario.email || '';
         if (document.getElementById('data')) document.getElementById('data').value = funcionario.dataNascimento || '';
         
-        // Selects
+        // Selects (por name ou ID)
         const selectCargo = this.form.querySelector('select[name="tipocargo"]');
         if (selectCargo) selectCargo.value = funcionario.tipoCargo || 'operacional';
 

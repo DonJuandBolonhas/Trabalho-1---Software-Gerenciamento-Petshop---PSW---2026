@@ -92,12 +92,12 @@
     </header>
 
     <main class="container my-5">
-        <h1 class="mb-4">Alterar Dados do Funcionário</h1>
+        <h1 class="mb-4 text-center">Alterar Dados do Funcionário</h1>
 
         <!-- Busca manual por CPF -->
         <div class="card mb-4">
             <div class="card-body">
-                <form id="form-busca-cpf" onsubmit="return false;" class="form-inline">
+                <form id="form-busca-cpf" onsubmit="return false;" class="form-inline justify-content-center">
                     <label for="input-busca-cpf" class="mr-2">Buscar por CPF:</label>
                     <input type="text" id="input-busca-cpf" class="form-control mr-2" placeholder="Informe o CPF do funcionário">
                     <button type="button" id="btn-carregar-cpf" class="btn btn-secondary">Carregar Dados</button>
@@ -105,58 +105,68 @@
             </div>
         </div>
 
-        <form id="form-funcionario" onsubmit="return false;">
+        <form id="form-funcionario" style="margin: 0 auto; width: 500px; padding: 20px; border: 1px solid #050404; border-radius: 5px;" onsubmit="return false;">
             <fieldset>
-                <legend>Editar Funcionário</legend>
+                <legend>Editar Funcionário:</legend>
+                
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" class="form-control" required><br>
 
-                <div class="form-group">
-                    <label for="nome">Nome Completo:</label>
-                    <input type="text" id="nome" name="nome" class="form-control" required>
-                </div>
+                <label for="cpf">CPF:</label><br>
+                <input type="text" id="cpf" name="cpf" class="form-control" required><br>
 
-                <div class="form-group">
-                    <label for="cpf">CPF:</label>
-                    <input type="text" id="cpf" name="cpf" class="form-control" required>
-                </div>
+                <label for="rg">RG:</label><br>
+                <input type="text" id="rg" name="rg" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="cargo">Cargo:</label>
-                    <select id="cargo" name="cargo" class="form-control">
-                        <option value="Veterinário(a)">Veterinário(a)</option>
-                        <option value="Tosador(a)">Tosador(a)</option>
-                        <option value="Atendente">Atendente</option>
-                        <option value="Gerente">Gerente</option>
-                        <option value="Serviços Gerais">Serviços Gerais</option>
-                    </select>
-                </div>
+                <label for="matricula">Matrícula:</label><br>
+                <input type="text" id="matricula" name="matricula" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="salario">Salário (R$):</label>
-                    <input type="number" step="0.01" id="salario" name="salario" class="form-control">
-                </div>
+                <label for="telefone">Telefone:</label><br>
+                <input type="tel" name="telefone" id="telefone" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="telefone">Telefone:</label>
-                    <input type="tel" id="telefone" name="telefone" class="form-control">
-                </div>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" id="email" name="email" class="form-control">
-                </div>
+                <label for="data">Data de Nascimento:</label><br>
+                <input type="date" id="data" name="data" class="form-control"><br><br>
 
-                <div class="form-group">
-                    <label for="dataAdmissao">Data de Admissão:</label>
-                    <input type="date" id="dataAdmissao" name="dataAdmissao" class="form-control">
-                </div>
+                <p class="mb-1">Gênero:</p>
+                <input type="radio" id="masculino" name="sex" value="masculino" checked>
+                <label for="masculino">Masculino</label><br>
 
-                <div class="form-group">
-                    <label for="anotacoes">Anotações:</label>
-                    <textarea name="anotacoes" id="anotacoes" rows="4" class="form-control"></textarea>
-                </div>
+                <input type="radio" id="feminino" name="sex" value="feminino">
+                <label for="feminino">Feminino</label><br>
 
-                <button type="submit" class="btn btn-warning">Salvar Alterações</button>
-                <a href="consulta.html" class="btn btn-secondary">Cancelar</a>
+                <input type="radio" id="outro" name="sex" value="outro">
+                <label for="outro" class="mb-3">Outro</label><br>
+
+                <div class="mb-1">Tipo de cargo:</div>
+                <select name="tipocargo" id="tipocargo" class="form-control mb-3">
+                    <option value="operacional" selected>Operacional</option>
+                    <option value="tatico">Tático</option>
+                    <option value="estrategico">Estratégico</option>
+                </select>
+
+                <div class="mb-1">Qualificação:</div>
+                <select name="qualificacao" id="qualificacao" class="form-control mb-3">
+                    <option value="ensinofundamentalc" selected>Ensino Fundamental - Completo</option>
+                    <option value="ensinofundamentali">Ensino Fundamental - Incompleto</option>
+                    <option value="ensinomedioc">Ensino Médio - Completo</option>
+                    <option value="ensinomedioi">Ensino Médio - Incompleto</option>
+                    <option value="cursotecnico">Curso Técnico</option>
+                    <option value="ensinosuperior">Ensino Superior - Completo</option>
+                    <option value="ensinosuperiori">Ensino Superior - Incompleto</option>
+                    <option value="posgraduacao">Pós-Graduação</option>
+                </select>
+
+                <label for="quantidade">Carga horária semanal (0-44):</label><br>
+                <input type="number" id="quantidade" name="quantidade" min="0" max="44" class="form-control"><br>
+
+                <label for="message">Descrição do cargo:</label><br>
+                <textarea name="message" id="message" rows="5" class="form-control"></textarea><br>
+
+                <button type="submit" class="btn btn-warning btn-block">Salvar Alterações</button>
+                <a href="consulta.html" class="btn btn-secondary btn-block">Cancelar</a>
             </fieldset>
         </form>
     </main>

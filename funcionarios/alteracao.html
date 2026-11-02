@@ -3,21 +3,20 @@
 
 <head>
     <meta name="keywords" content="pet, petshop, trabalhonota10">
-    <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS ">
+    <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS">
     <meta charset="UTF-8">
     <meta name="author" content="Denilson P.M., Pablo F.S.L.">
-    <!-- não parece ser útil <meta http-equiv="refresh" content="30"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
     <link rel="icon" type="image/x-icon" href="../imagens/favicon.png">
-    <title>Petshop - MEU - Gerenciamento</title>
+    <title>Petshop - Alteração de Funcionário</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="../index.html">
@@ -30,7 +29,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="../index.html">Home</a>
                     </li>
                     <li class="nav-item">
@@ -40,7 +39,6 @@
                         <a class="nav-link" href="../contato.html">Contato</a>
                     </li>
 
-                    <!-- Dropdowns -->
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropClientes" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Clientes
@@ -77,39 +75,105 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown active">
                         <a class="nav-link dropdown-toggle" href="#" id="dropFuncionarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Funcionários
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropFuncionarios">
                             <a class="dropdown-item" href="cadastro.html">Cadastro</a>
                             <a class="dropdown-item" href="consulta.html">Consulta</a>
-                            <a class="dropdown-item" href="alteracao.html">Alteração</a>
+                            <a class="dropdown-item active" href="alteracao.html">Alteração</a>
                             <a class="dropdown-item" href="remocao.html">Remoção</a>
                         </div>
                     </li>
                 </ul>
-
-                <form class="form-inline my-2 my-lg-0" action="/action_page.php">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Buscar..." aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-                </form>
             </div>
         </nav>
     </header>
+
     <main class="container my-5">
-        
+        <h1 class="mb-4">Alterar Dados do Funcionário</h1>
+
+        <!-- Busca manual por CPF -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form id="form-busca-cpf" onsubmit="return false;" class="form-inline">
+                    <label for="input-busca-cpf" class="mr-2">Buscar por CPF:</label>
+                    <input type="text" id="input-busca-cpf" class="form-control mr-2" placeholder="Informe o CPF do funcionário">
+                    <button type="button" id="btn-carregar-cpf" class="btn btn-secondary">Carregar Dados</button>
+                </form>
+            </div>
+        </div>
+
+        <form id="form-funcionario" onsubmit="return false;">
+            <fieldset>
+                <legend>Editar Funcionário</legend>
+
+                <div class="form-group">
+                    <label for="nome">Nome Completo:</label>
+                    <input type="text" id="nome" name="nome" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" name="cpf" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="cargo">Cargo:</label>
+                    <select id="cargo" name="cargo" class="form-control">
+                        <option value="Veterinário(a)">Veterinário(a)</option>
+                        <option value="Tosador(a)">Tosador(a)</option>
+                        <option value="Atendente">Atendente</option>
+                        <option value="Gerente">Gerente</option>
+                        <option value="Serviços Gerais">Serviços Gerais</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="salario">Salário (R$):</label>
+                    <input type="number" step="0.01" id="salario" name="salario" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="telefone">Telefone:</label>
+                    <input type="tel" id="telefone" name="telefone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="dataAdmissao">Data de Admissão:</label>
+                    <input type="date" id="dataAdmissao" name="dataAdmissao" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="anotacoes">Anotações:</label>
+                    <textarea name="anotacoes" id="anotacoes" rows="4" class="form-control"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-warning">Salvar Alterações</button>
+                <a href="consulta.html" class="btn btn-secondary">Cancelar</a>
+            </fieldset>
+        </form>
     </main>
+
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-1">Suporte: <a href="mailto:ra@uem.br" class="text-light font-weight-bold">ra@uem.br</a></p>
         <p class="mb-0">Meu S/A - CNPJ: 00.000.000/0000-00</p>
         <small>&copy; 2026 MeuPetshop - Todos os direitos reservados</small>
     </footer>
 
+    <!-- Dependências Bootstrap -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-</body>
+
+    <!-- Script de Lógica do Funcionário -->
+    <script src="../js/funcionario.js"></script>
 </body>
 
 </html>

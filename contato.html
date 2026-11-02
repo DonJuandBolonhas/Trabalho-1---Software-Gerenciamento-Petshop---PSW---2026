@@ -110,20 +110,19 @@
             <small>Respondemos em até 2 dias úteis.</small>
         </p>
 
-        <form action="acao.php" method="POST"
-            style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
+        <form style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
             <fieldset>
                 <legend>Preencha os dados para o suporte:</legend>
 
                 <label for="nome">Nome:</label><br>
-                <input type="text" id="nome" name="nome"> <br>
+                <input type="text" id="nome" name="nome" class="form-control"> <br>
 
                 <label for="telefone">Telefone:</label><br>
-                <input type="tel" name="telefone" id="telefone"><br>
+                <input type="tel" name="telefone" id="telefone" class="form-control"><br>
 
                 <label for="message" id="secao1">Anotações:</label><br>
-                <textarea name="message" id="message" rows="10" cols="40"></textarea><br>
-                <br><input type="submit" value="Enviar">
+                <textarea name="message" id="message" rows="10" cols="40" class="form-control"></textarea><br>
+                <br><input type="submit" value="Enviar" class="btn btn-primary btn-block">
             </fieldset>
         </form><br>
         <p><strong>Horário de atendimento:</strong> segunda a sexta, das 08h às 18h e sábados das 08h às 16h.</p>

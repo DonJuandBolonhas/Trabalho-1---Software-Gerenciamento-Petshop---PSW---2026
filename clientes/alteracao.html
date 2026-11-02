@@ -92,103 +92,78 @@
     </header>
 
     <main class="container my-5">
-        <h1 class="mb-4">Alterar Dados do Cliente</h1>
+        <h1 class="cabecalho text-center mb-4">Alterar Dados do Cliente</h1>
 
-        <!-- Busca manual por ID caso o usuário acesse a página direto sem clicar na consulta -->
-        <div class="card mb-4">
-    <div class="card-body">
-        <form id="form-busca-cpf" onsubmit="return false;" class="form-inline">
-            <label for="input-busca-cpf" class="mr-2">Buscar por CPF:</label>
-            <input type="text" id="input-busca-cpf" class="form-control mr-2" placeholder="Informe o CPF do cliente">
-            <button type="button" id="btn-carregar-cpf" class="btn btn-secondary">Carregar Dados</button>
-        </form>
-    </div>
-</div>
+        <!-- Busca manual por CPF -->
+        <div class="card mb-4" style="margin: 0 auto; width: 500px;">
+            <div class="card-body">
+                <form id="form-busca-cpf" onsubmit="return false;" class="form-inline justify-content-center">
+                    <label for="input-busca-cpf" class="mr-2">Buscar por CPF:</label>
+                    <input type="text" id="input-busca-cpf" class="form-control mr-2 mb-2 mb-sm-0" placeholder="Informe o CPF do cliente">
+                    <button type="button" id="btn-carregar-cpf" class="btn btn-secondary">Carregar Dados</button>
+                </form>
+            </div>
+        </div>
 
-        <form id="form-cliente" onsubmit="return false;">
+        <form id="form-cliente" style="margin: 0 auto; width: 500px; padding: 20px; border: 1px solid #050404; border-radius: 5px;" onsubmit="return false;">
             <fieldset>
-                <legend>Editar Cliente</legend>
+                <legend>Editar Cliente:</legend>
+                
+                <label for="nome">Nome:</label><br>
+                <input type="text" id="nome" name="nome" class="form-control" required><br>
 
-                <div class="form-group">
-                    <label for="nome">Nome:</label>
-                    <input type="text" id="nome" name="nome" class="form-control" required>
-                </div>
+                <label for="cpf">CPF:</label><br>
+                <input type="text" id="cpf" name="cpf" class="form-control" required><br>
 
-                <div class="form-group">
-                    <label for="cpf">CPF:</label>
-                    <input type="text" id="cpf" name="cpf" class="form-control" required>
-                </div>
+                <label for="rg">RG:</label><br>
+                <input type="text" id="rg" name="rg" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="rg">RG:</label>
-                    <input type="text" id="rg" name="rg" class="form-control">
-                </div>
+                <label for="telefone">Telefone:</label><br>
+                <input type="tel" name="telefone" id="telefone" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="telefone">Telefone:</label>
-                    <input type="tel" id="telefone" name="telefone" class="form-control">
-                </div>
+                <label for="email">Email:</label><br>
+                <input type="email" id="email" name="email" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" class="form-control">
-                </div>
+                <label for="data">Data de Nascimento:</label><br>
+                <input type="date" id="data" name="data" class="form-control"><br><br>
 
-                <div class="form-group">
-                    <label for="data">Data de Nascimento:</label>
-                    <input type="date" id="data" name="data" class="form-control">
-                </div>
+                <p class="mb-1">Gênero:</p>
+                <input type="radio" id="masculino" name="sex" value="masculino" checked>
+                <label for="masculino">Masculino</label><br>
 
-                <div class="form-group">
-                    <label>Gênero:</label><br>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="masculino" name="sex" value="masculino" checked>
-                        <label class="form-check-label" for="masculino">Masculino</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="feminino" name="sex" value="feminino">
-                        <label class="form-check-label" for="feminino">Feminino</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" id="outro" name="sex" value="outro">
-                        <label class="form-check-label" for="outro">Outro</label>
-                    </div>
-                </div>
+                <input type="radio" id="feminino" name="sex" value="feminino">
+                <label for="feminino">Feminino</label><br>
 
-                <div class="form-group">
-                    <label for="cidades-input">Cidade:</label>
-                    <input list="cidades" id="cidades-input" name="cidade" class="form-control">
-                    <datalist id="cidades">
-                        <option value="Maringá">
-                        <option value="Sarandi">
-                        <option value="Mandaguaçu">
-                        <option value="Mandaguari">
-                        <option value="Presidente Castelo Branco">
-                    </datalist>
-                </div>
+                <input type="radio" id="outro" name="sex" value="outro">
+                <label for="outro" class="mb-3">Outro</label><br>
 
-                <div class="form-group form-check">
-                    <input type="checkbox" id="epropaganda" name="propaganda" value="epropaganda" class="form-check-input">
-                    <label class="form-check-label" for="epropaganda">Permitido enviar propaganda por e-mail</label>
-                </div>
+                <label for="cidades-input">Cidade:</label><br>
+                <input list="cidades" id="cidades-input" name="cidade" class="form-control">
+                <datalist id="cidades">
+                    <option value="Maringá">
+                    <option value="Sarandi">
+                    <option value="Mandaguaçu">
+                    <option value="Mandaguari">
+                    <option value="Presidente Castelo Branco">
+                </datalist><br>
 
-                <div class="form-group form-check">
-                    <input type="checkbox" id="wpropaganda" name="propaganda" value="wpropaganda" class="form-check-input">
-                    <label class="form-check-label" for="wpropaganda">Permitido enviar propaganda por whatsapp</label>
-                </div>
+                <input type="checkbox" id="epropaganda" name="propaganda" value="epropaganda">
+                <label for="epropaganda">Permitido enviar propaganda por e-mail</label><br>
+                
+                <input type="checkbox" id="wpropaganda" name="propaganda" value="wpropaganda">
+                <label for="wpropaganda" class="mb-3">Permitido enviar propaganda por whatsapp</label><br>
 
-                <div class="form-group">
-                    <label for="quantidade">Quantidade de pets (0-100):</label>
-                    <input type="number" id="quantidade" name="quantidade" min="0" max="100" class="form-control">
-                </div>
+                <label for="quantidade">Quantidade de pets (0-100):</label><br>
+                <input type="number" id="quantidade" name="quantidade" min="0" max="100" class="form-control"><br>
 
-                <div class="form-group">
-                    <label for="message">Anotações:</label>
-                    <textarea name="message" id="message" rows="5" class="form-control"></textarea>
-                </div>
+                <label for="logradouro">Logradouro:</label><br>
+                <input type="text" id="logradouro" name="logradouro" class="form-control"><br>
 
-                <button type="submit" class="btn btn-warning">Salvar Alterações</button>
-                <a href="consulta.html" class="btn btn-secondary">Cancelar</a>
+                <label for="message">Anotações:</label><br>
+                <textarea name="message" id="message" rows="5" class="form-control"></textarea><br>
+
+                <button type="submit" class="btn btn-warning btn-block">Salvar Alterações</button>
+                <a href="consulta.html" class="btn btn-secondary btn-block mt-2">Cancelar</a>
             </fieldset>
         </form>
     </main>
@@ -204,7 +179,7 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
-    <!-- Importação única do script da entidade -->
+    <!-- Script de Lógica do Cliente -->
     <script src="../js/cliente.js"></script>
 </body>
 

@@ -112,7 +112,8 @@ class ClienteController {
         if (document.getElementById('email')) document.getElementById('email').value = cliente.email || '';
         if (document.getElementById('data')) document.getElementById('data').value = cliente.dataNascimento || '';
         if (document.getElementById('cidades-input')) document.getElementById('cidades-input').value = cliente.cidade || '';
-        if (document.getElementById('quantidade')) document.getElementById('quantidade').value = cliente.qtdPets || 0;
+        if (document.getElementById('quantidade')) document.getElementById('quantidade').value = cliente.qtdPets !== undefined ? cliente.qtdPets : '';
+        if (document.getElementById('logradouro')) document.getElementById('logradouro').value = cliente.logradouro || '';
         if (document.getElementById('message')) document.getElementById('message').value = cliente.anotacoes || '';
 
         // Preenchimento do Gênero
@@ -122,12 +123,10 @@ class ClienteController {
         }
 
         // Preenchimento de Checkboxes
-        if (cliente.propaganda) {
-            const chkEmail = document.getElementById('epropaganda');
-            const chkWhatsapp = document.getElementById('wpropaganda');
-            if (chkEmail) chkEmail.checked = Boolean(cliente.propaganda.email);
-            if (chkWhatsapp) chkWhatsapp.checked = Boolean(cliente.propaganda.whatsapp);
-        }
+        const chkEmail = document.getElementById('epropaganda');
+        const chkWhatsapp = document.getElementById('wpropaganda');
+        if (chkEmail) chkEmail.checked = Boolean(cliente.propaganda?.email);
+        if (chkWhatsapp) chkWhatsapp.checked = Boolean(cliente.propaganda?.whatsapp);
     }
 
     obterDadosFormulario() {
@@ -151,7 +150,8 @@ class ClienteController {
                 whatsapp: propagandaWhatsapp
             },
             qtdPets: formData.get('quantidade'),
-            anotacoes: formData.get('message'),
+            logradouro: formData.get('logradouro')?.trim(),
+            anotacoes: formData.get('message')?.trim(),
             criadoEm: new Date().toISOString()
         };
     }
@@ -309,15 +309,17 @@ class ClienteRemocaoController {
         const urlParams = new URLSearchParams(window.location.search);
         const cpfUrl = urlParams.get('cpf');
         if (cpfUrl) {
-            document.getElementById('tipoBusca').value = 'cpf';
-            document.getElementById('termoBusca').value = cpfUrl;
+            const tipoSelect = document.getElementById('tipoBusca');
+            const termoInput = document.getElementById('termoBusca');
+            if (tipoSelect) tipoSelect.value = 'cpf';
+            if (termoInput) termoInput.value = cpfUrl;
             this.carregarClientePorCpf(cpfUrl);
         }
     }
 
     buscarCliente() {
-        const tipoBusca = document.getElementById('tipoBusca').value;
-        const termo = document.getElementById('termoBusca').value.trim();
+        const tipoBusca = document.getElementById('tipoBusca')?.value;
+        const termo = document.getElementById('termoBusca')?.value.trim();
 
         if (!termo) {
             alert('Por favor, digite um termo para busca.');
@@ -357,14 +359,16 @@ class ClienteRemocaoController {
     exibirCliente(cliente) {
         this.clienteAtual = cliente;
 
-        document.getElementById('info-id').textContent = cliente.id ? `#${cliente.id}` : '-';
-        document.getElementById('info-nome').textContent = cliente.nome || '-';
-        document.getElementById('info-cpf').textContent = cliente.cpf || '-';
-        document.getElementById('info-email').textContent = cliente.email || '-';
-        document.getElementById('info-telefone').textContent = cliente.telefone || '-';
-        document.getElementById('info-pets').textContent = cliente.qtdPets || 0;
+        if (document.getElementById('info-id')) document.getElementById('info-id').textContent = cliente.id ? `#${cliente.id}` : '-';
+        if (document.getElementById('info-nome')) document.getElementById('info-nome').textContent = cliente.nome || '-';
+        if (document.getElementById('info-cpf')) document.getElementById('info-cpf').textContent = cliente.cpf || '-';
+        if (document.getElementById('info-email')) document.getElementById('info-email').textContent = cliente.email || '-';
+        if (document.getElementById('info-telefone')) document.getElementById('info-telefone').textContent = cliente.telefone || '-';
+        if (document.getElementById('info-pets')) document.getElementById('info-pets').textContent = cliente.qtdPets || 0;
 
-        document.getElementById('modal-nome-cliente').textContent = cliente.nome || 'Cliente';
+        if (document.getElementById('modal-nome-cliente')) {
+            document.getElementById('modal-nome-cliente').textContent = cliente.nome || 'Cliente';
+        }
 
         if (this.painelVazio) this.painelVazio.classList.add('d-none');
         if (this.cardDados) this.cardDados.classList.remove('d-none');
@@ -383,10 +387,8 @@ class ClienteRemocaoController {
         }
 
         try {
-            // Utiliza o método nativo da sua classe StorageService
             this.storage.removerPorCpf(this.clienteAtual.cpf);
 
-            // Oculta o modal do Bootstrap se estiver ativo
             if (typeof $ !== 'undefined') {
                 $('#modalConfirmacao').modal('hide');
             }
@@ -409,7 +411,6 @@ document.addEventListener('DOMContentLoaded', () => {
         new ClienteConsultaController();
     }
 
-    // Inicializa o módulo de remoção se a página contiver a estrutura correspondente
     if (document.getElementById('container-remocao-cliente')) {
         new ClienteRemocaoController();
     }

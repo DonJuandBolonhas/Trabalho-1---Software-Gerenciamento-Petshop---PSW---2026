@@ -6,14 +6,15 @@
     <meta name="description" content="Trabalho sobre 'Gerenciamento de Petshop' para demonstrar conhecimentos sobre HTML, CSS e JS ">
     <meta charset="UTF-8">
     <meta name="author" content="Denilson P.M., Pablo F.S.L.">
+    <!-- não parece ser útil <meta http-equiv="refresh" content="30"> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
     <link rel="icon" type="image/x-icon" href="../imagens/favicon.png">
-    <title>Petshop - Cadastro de Funcionário</title>
+    <title>Petshop - MEU - Gerenciamento</title>
 </head>
 
 <body>
@@ -29,7 +30,7 @@
 
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="../index.html">Home</a>
                     </li>
                     <li class="nav-item">
@@ -57,10 +58,10 @@
                             Atendimentos
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropAtendimentos">
-                            <a class="dropdown-item" href="../atendimentos/cadastro.html">Cadastro</a>
-                            <a class="dropdown-item" href="../atendimentos/consulta.html">Consulta</a>
-                            <a class="dropdown-item" href="../atendimentos/alteracao.html">Alteração</a>
-                            <a class="dropdown-item" href="../atendimentos/remocao.html">Remoção</a>
+                            <a class="dropdown-item" href="cadastro.html">Cadastro</a>
+                            <a class="dropdown-item" href="consulta.html">Consulta</a>
+                            <a class="dropdown-item" href="alteracao.html">Alteração</a>
+                            <a class="dropdown-item" href="remocao.html">Remoção</a>
                         </div>
                     </li>
 
@@ -76,15 +77,15 @@
                         </div>
                     </li>
 
-                    <li class="nav-item dropdown active">
+                    <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropFuncionarios" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Funcionários
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropFuncionarios">
-                            <a class="dropdown-item" href="cadastro.html">Cadastro</a>
-                            <a class="dropdown-item" href="consulta.html">Consulta</a>
-                            <a class="dropdown-item" href="alteracao.html">Alteração</a>
-                            <a class="dropdown-item" href="remocao.html">Remoção</a>
+                            <a class="dropdown-item" href="../funcionarios/cadastro.html">Cadastro</a>
+                            <a class="dropdown-item" href="../funcionarios/consulta.html">Consulta</a>
+                            <a class="dropdown-item" href="../funcionarios/alteracao.html">Alteração</a>
+                            <a class="dropdown-item" href="../funcionarios/remocao.html">Remoção</a>
                         </div>
                     </li>
                 </ul>
@@ -96,49 +97,36 @@
             </div>
         </nav>
     </header>
-
-    <main class="container my-5">
-        <h1 class="cabecalho text-center mb-4">Cadastro de Funcionário</h1>
-
-        <form id="form-funcionario" style="margin: 0 auto; width: 500px; padding: 20px; border: 1px solid #050404; border-radius: 5px;">
-            <fieldset>
-                <legend>Preencha os dados do Funcionário:</legend>
+   <main class="container my-5">
+                <h1 class="cabecalho">Cadastro Atendimento</h1>
+        <ul>
+            <li><a href="#secao1">Consultar anotações</a></li>
+        </ul>
+        <form action="acao.php" method="POST" style="margin: 0 auto;width: 500px;padding: 20px;border: 1px solid #050404;border-radius: 5px;">
+        <fieldset>
+                <legend>Preencha os dados do Atendimento:</legend>
+                <label for="atendimento">Número do atendimento:</label><br>
+                <input type="number" id="atendimento" name="atendimento" min="0"><br>
+                 
                 
-                <label for="nome">Nome Completo:</label><br>
-                <input type="text" id="nome" name="nome" class="form-control" required><br>
+                <label for="nomea">Nome do animal:</label><br>
+                <input type="text" id="nomea" name="nomea"> <br>
 
-                <label for="cpf">CPF:</label><br>
-                <input type="text" id="cpf" name="cpf" class="form-control" required><br>
+                <label for="nomet">Nome do Tutor:</label><br>
+                <input type="text" id="nomet" name="nomet"> <br>
 
-                <label for="cargo">Cargo:</label><br>
-                <select id="cargo" name="cargo" class="form-control">
-                    <option value="Veterinário(a)">Veterinário(a)</option>
-                    <option value="Tosador(a)">Tosador(a)</option>
-                    <option value="Atendente">Atendente</option>
-                    <option value="Gerente">Gerente</option>
-                    <option value="Services Gerais">Serviços Gerais</option>
-                </select><br>
+                <label for="nomef">Nome do Funcionário:</label><br>
+                <input type="text" id="nomef" name="nomef"> <br>
 
-                <label for="salario">Salário (R$):</label><br>
-                <input type="number" step="0.01" id="salario" name="salario" class="form-control"><br>
+                <label for="data"> Data do Atendimento:</label><br>
+                <input type="date" id="data" name="data"><br><br>
 
-                <label for="telefone">Telefone:</label><br>
-                <input type="tel" id="telefone" name="telefone" class="form-control"><br>
-
-                <label for="email">E-mail:</label><br>
-                <input type="email" id="email" name="email" class="form-control"><br>
-
-                <label for="dataAdmissao">Data de Admissão:</label><br>
-                <input type="date" id="dataAdmissao" name="dataAdmissao" class="form-control"><br>
-
-                <label for="anotacoes">Anotações:</label><br>
-                <textarea name="anotacoes" id="anotacoes" rows="4" class="form-control"></textarea><br>
-
-                <button type="submit" class="btn btn-primary btn-block">Salvar Funcionário</button>
+                <label for="message"  id="secao1">Anotações:</label><br>
+                <textarea name="message" id="message" rows="10" cols="40"></textarea><br>
+                <br><input type="submit" value="Salvar">
             </fieldset>
         </form>
     </main>
-
     <footer class="bg-dark text-white text-center py-3 mt-auto">
         <p class="mb-1">Suporte: <a href="mailto:ra@uem.br" class="text-light font-weight-bold">ra@uem.br</a></p>
         <p class="mb-0">Meu S/A - CNPJ: 00.000.000/0000-00</p>
@@ -148,9 +136,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
-    <!-- Script de Lógica do Funcionário -->
-    <script src="../js/funcionario.js"></script>
+</body>
 </body>
 
 </html>
